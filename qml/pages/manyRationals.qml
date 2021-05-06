@@ -85,7 +85,7 @@ Item {
         x: 5
         model: ["All of rationals from 1/7 till 6/7", "All rationals from 1/49 till 48/49",
                 "All rationals from 1/91 till 90/91", "1/13 .. 12/13", "1/5..4/5", "1/3 and 2/3",
-                "FIRST NON REPTEND", "FIRST REPTEND", "11", "13"]
+                "FIRST NON REPTEND", "FIRST REPTEND", "11", "13", "penta", "Num reduction"]
 
         width: parent.width/2 - 50
 
@@ -266,6 +266,22 @@ Item {
                 addPrimeToCircle(1,11,7,false,6)
                 addPrimeToCircle(1,13,20,true,6)
             }
+            else if (index == 10) {
+                addPrimeToCircle(358,3124,5,false,2)
+            }
+            else if (index == 11) {
+
+                var colorValue = "#00ff00"
+                var oro = true
+
+                circle.add([1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true, oro, colorValue) //1 and rev 8
+                circle2.add([2, 4, 6, 8, 1, 3, 5, 7, 9], 10, true, oro, colorValue) //2 and rev 7
+                circle3.add([3, 6, 9, 3, 6, 9, 3, 6, 9], 10, true, oro, colorValue) //3 and rev 6
+                circle5.add([4, 8, 3, 7, 2, 6, 1, 5, 9], 10, true, oro, colorValue) //4 and rev 5
+ 
+
+            }    
+
             
             /* //CASE FOR OPTIMIZATION - this one runs too slow
             for (var i = 1; i < 13*13; ++i)
