@@ -85,7 +85,7 @@ Item {
         x: 5
         model: ["All of rationals from 1/7 till 6/7", "All rationals from 1/49 till 48/49",
                 "All rationals from 1/91 till 90/91", "1/13 .. 12/13", "1/5..4/5", "1/3 and 2/3",
-                "FIRST NON REPTEND", "FIRST REPTEND", "11", "13", "penta", "Num reduction"]
+                "FIRST NON REPTEND", "FIRST REPTEND", "11", "13", "penta", "Num reduction Mult dec", "Num red mult 9+8", "Num exp 7+6","Num red mult 7"]
 
         width: parent.width/2 - 50
 
@@ -273,14 +273,39 @@ Item {
 
                 var colorValue = "#00ff00"
                 var oro = true
-
                 circle.add([1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true, oro, colorValue) //1 and rev 8
                 circle2.add([2, 4, 6, 8, 1, 3, 5, 7, 9], 10, true, oro, colorValue) //2 and rev 7
                 circle3.add([3, 6, 9, 3, 6, 9, 3, 6, 9], 10, true, oro, colorValue) //3 and rev 6
                 circle5.add([4, 8, 3, 7, 2, 6, 1, 5, 9], 10, true, oro, colorValue) //4 and rev 5
- 
+                circle6.add([2, 4, 8, 7, 5, 1], 10, true, true, colorValue) 
+            }    
+            else if (index == 12) {
+                var colorValue = "#00ff00"
+                var oro = true
+
+                circle.add([2, 4, 6, 8, 2, 4, 6], 9, true, oro, colorValue) 
+                circle2.add([3, 6, 1, 4, 7, 2, 5], 9, true, oro, colorValue) 
+
+
+                circle4.add([2, 4, 6, 1, 3, 5], 8, true, oro, colorValue) 
+                circle5.add([3, 6, 2, 5, 1, 4], 8, true, oro, colorValue) 
+
+                circle6.add([3, 2, 6, 4, 5, 1], 8, true, oro, colorValue) //still 6??
 
             }    
+            else if (index == 13) {
+
+                var oro = true
+                var colorValue = "#00ff00"
+                circle.add([2, 4, 3, 1], 6, true, oro, colorValue) 
+                circle2.add([2, 4, 1, 3], 6, true, oro, colorValue) 
+    
+
+     
+            } 
+            else if (index == 14) {
+
+            } 
 
             
             /* //CASE FOR OPTIMIZATION - this one runs too slow
