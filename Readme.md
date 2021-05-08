@@ -65,6 +65,8 @@ Sympy is optional and used for prime factorisation of small numbers, but usage o
 Also you may epxerience issue of installing gmpy2 on windows, in this case you may use unofficial wheel:
 https://www.lfd.uci.edu/~gohlke/pythonlibs/
 
+You may also experience issues with PySide2 using 64 bit Python interpriter on Windows, so suggestion is to use 32bit version.
+
 Project was running at Linux/MacOs/Windows - but the very last version tested only on Windows.
 
 ## Excuses
