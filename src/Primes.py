@@ -1,6 +1,6 @@
 
 from factordb.factordb import FactorDB
-from fractions import gcd
+from math import gcd
 
 from PySide2.QtCore import Qt, Slot, Signal, QObject
 from PySide2.QtQml import qmlRegisterType

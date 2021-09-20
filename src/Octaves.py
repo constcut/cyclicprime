@@ -1,6 +1,6 @@
 import time
 
-from fractions import gcd
+from math import gcd
 
 
 def listToStr(scaleList):

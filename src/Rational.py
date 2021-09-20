@@ -1,6 +1,6 @@
 import math
 
-from fractions import gcd
+from math import gcd
 import gmpy2
 
 from PySide2.QtCore import Qt, Slot, Signal, QObject
