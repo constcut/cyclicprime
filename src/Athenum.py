@@ -34,6 +34,9 @@ def athenumModuleImport(moduleName):
 
 def athenumEngineStart():
     app = QGuiApplication(sys.argv)
+    app.setOrganizationName("NCO:ath")
+    app.setOrganizationDomain("ath.enum")
+
     athenumInfo = AthenumInfo()
 
     if len(sys.argv) > 1:

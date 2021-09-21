@@ -23,6 +23,17 @@ class LogOctaves(QObject):
         self._l3 = IntervalScalesModel()
         self._l4 = IntervalScalesModel()
         
+    @Slot('int')
+    def setNumberElements(self, elementsCount):
+        self._elemenstCount = elementsCount
+
+    @Slot('int')
+    def setBaseNumber(self, baseNumber):
+        self._baseNumber = baseNumber
+
+    @Slot('int')
+    def setMultiplyFactor(self, multiplyFactor):
+        self._multiplyFactor = multiplyFactor
 
     @Slot('QVariant')
     def setScaleRatio(self, ratio):
@@ -36,12 +47,13 @@ class LogOctaves(QObject):
         
     @Slot(int)
     def calc(self, elementsСount): 
+        baseNumber = 14
         from Octaves import calculateOctaveScales, findSequences
-        scales = calculateOctaveScales(14, elementsСount)
+        scales = calculateOctaveScales(baseNumber, elementsСount)
         intervals = [interval for scale in scales for interval in scale]
         self._l1.setData(intervals)
         self._l1.setWidthMap([0,1,2])
-        scalesNums = calculateOctaveScales(14, elementsСount, type='numbers')
+        scalesNums = calculateOctaveScales(baseNumber, elementsСount, type='numbers')
         self._l2.setData(scalesNums)
         self._l2.setWidthMap([12,12,12,12,12,11,12,12])
         sequences, seqNames = findSequences(scalesNums)
@@ -94,16 +106,16 @@ class IntervalScalesModel(QAbstractTableModel):
     def setType(self, type):
         self._type = type
 
-    @Slot('QString', 'int', 'int')
-    def generateByIntervals(self, filename, startNote, endNote): #todo other params as duration, tempo etc
+    @Slot('QString', 'int', 'int', 'int', 'float')
+    def generateByIntervals(self, filename, startNote, endNote, tempo, duration): #todo other params as duration, tempo etc
         from Midi import MidiWriter
         m = MidiWriter()
-        m.startNewFile()
+        m.startNewFile(tempo)
         s = []
         currentNote = startNote
         for interval in self._data:
             s.append(currentNote)
-            m.addNote(currentNote, 0.5)
+            m.addNote(currentNote, duration)
             currentNote += interval
             if currentNote > endNote:
                 currentNote -= endNote - startNote

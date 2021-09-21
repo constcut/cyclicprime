@@ -5,12 +5,12 @@ class MidiWriter(QObject):
     def __init__(self,parent=None):
         QObject.__init__(self,parent)
 
-    def startNewFile(self) :
+    def startNewFile(self, tempo) :
         from midiutil import MIDIFile
         self._track    = 0
         self._channel  = 0
         self._time     = 0   # In beats
-        self._tempo    = 180  # In BPM
+        self._tempo    = tempo  # In BPM
         self._volume   = 100 # 0-127, as per the MIDI standard
         self.midiFile = MIDIFile(1) # One track, defaults to format 1 (tempo track)
         self.midiFile.addTempo(self._track,self._time, self._tempo)

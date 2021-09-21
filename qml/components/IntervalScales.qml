@@ -4,7 +4,6 @@ import Athenum 1.0
 import QtQml 2.12
 import QtQuick.Dialogs 1.3
 
-
 Item {
     id: autoSumItem
 
@@ -50,7 +49,7 @@ Item {
         stepSize: 1
         y: 5
         x: 0
-        width: parent.width/2
+        width: parent.width/4
         onValueChanged: {
             updateTimer.restart()
         }
@@ -150,26 +149,29 @@ Item {
         }
     }
 
+    Item {
+        id: dialogItem
+        FileDialog {
+            id: fileDialog
+            title: "Save midi file"
+            folder: shortcuts.desktop
+            onAccepted: {
+                console.log("You chose: " + fileDialog.fileUrls)
 
-    FileDialog {
-        id: fileDialog
-        title: "Save midi file"
-        folder: shortcuts.home
-        onAccepted: {
-            console.log("You chose: " + fileDialog.fileUrls)
+                var filename = fileDialog.fileUrls.toString().substr(8)
+                console.log("Filename", filename)
 
-            var filename = fileDialog.fileUrls.toString().substr(8)
-            console.log("Filename", filename)
-
-            intervalsTable1.model.generateByIntervals(
-                filename, startNoteValue.text, endNoteValue.text)
-        }
-        onRejected: {
-            console.log("Canceled")
-        }
-        nameFilters: [ "MIDI files (*.midi *.mid)", "All files (*)" ]
-        selectExisting: false
-        Component.onCompleted: visible = false
+                intervalsTable1.model.generateByIntervals(
+                    filename, startNoteValue.text, endNoteValue.text,
+                    tempoValue.text, durationValue.text)
+            }
+            onRejected: {
+                console.log("Canceled")
+            }
+            nameFilters: [ "MIDI files (*.midi *.mid)", "All files (*)" ]
+            selectExisting: false
+            visible: false
+        } //Проблема из-за диалога.. теряются правильные размеры - перенести как это
     }
 
     Button {
@@ -182,36 +184,36 @@ Item {
     }
 
     Rectangle{
-    id: visualArea1
-    width: parent.width
-    height: 90
-    y: 150
-    x:0
-    TableView{
-        id: intervalsTable1
-        onContentXChanged:  {
-            intervalsTable2.contentX = contentX
-            intervalsTable3.contentX = contentX
-            intervalsTable4.contentX = contentX
-        }
-        y: 0
+        id: visualArea1
         width: parent.width
-        height: parent.height - y
-        columnWidthProvider: function (column) { return model.getColumnWidth(column) }
-        delegate:
-            Rectangle {
-                color: display[4]
-                visible: ratio.value > 25
-                Text {
-                width: 10
-                text: display[2] 
-                visible: ratio.value > 80
+        height: 90
+        y: 150
+        x:0
+        TableView{
+            id: intervalsTable1
+            onContentXChanged:  {
+                intervalsTable2.contentX = contentX
+                intervalsTable3.contentX = contentX
+                intervalsTable4.contentX = contentX
             }
-            implicitHeight: 90
-            implicitWidth: 30
-            border.color: 'lightgray'
+            y: 0
+            width: parent.width
+            height: parent.height - y
+            columnWidthProvider: function (column) { return model.getColumnWidth(column) }
+            delegate:
+                Rectangle {
+                    color: display[4]
+                    visible: ratio.value > 25
+                    Text {
+                    width: 10
+                    text: display[2] 
+                    visible: ratio.value > 80
+                }
+                implicitHeight: 90
+                implicitWidth: 30
+                border.color: 'lightgray'
+            }
         }
-    }
    }
    
     Rectangle {
