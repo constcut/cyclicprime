@@ -90,7 +90,6 @@ class IntervalScalesModel(QAbstractTableModel):
 
     def setData(self, data):
         self._data = data
-        print("Data debug: ", data[:10])
 
     def setType(self, type):
         self._type = type
@@ -109,8 +108,8 @@ class IntervalScalesModel(QAbstractTableModel):
             if currentNote > endNote:
                 currentNote -= endNote - startNote
         m.saveToFile(filename)
-        print('Debuging')
-        print(s)
+        #print('Debuging')
+        #print(s) #TODO insure there are no repeats
         
 
     @Slot()

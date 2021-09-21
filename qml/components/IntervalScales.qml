@@ -2,6 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.2
 import Athenum 1.0
 import QtQml 2.12
+import QtQuick.Dialogs 1.3
+
 
 Item {
     id: autoSumItem
@@ -63,28 +65,120 @@ Item {
         id: baseNumber
         y: 5
         x: ratio.x + ratio.width + 10
+        width: 70
         placeholderText: "Base number"
         text: "14"
+
+        ToolTip {
+            parent: baseNumber.handles
+            visible: baseNumber.hovered 
+            text: 'Base number: ' + baseNumber.text
+        }
     }
 
     ComboBox {
         id: multiplyNumber
         y: 5
         x: baseNumber.x + baseNumber.width + 10
+        width: 70
         model : ["2", "3"]
+
+        ToolTip {
+            parent: multiplyNumber.handles
+            visible: multiplyNumber.hovered 
+            text: 'Multiply number: ' + multiplyNumber.text
+        }
+    }
+
+    TextField {
+        id: tempoValue
+        y: 5
+        x: multiplyNumber.x + multiplyNumber.width + 10
+        width: 70
+        placeholderText: "Tempo"
+        text: "180"
+
+        ToolTip {
+            parent: tempoValue.handles
+            visible: tempoValue.hovered 
+            text: 'Tempo: ' + tempoValue.text
+        }
+    }
+
+    TextField {
+        id: durationValue
+        y: 5
+        x: tempoValue.x + tempoValue.width + 10
+        width: 70
+        placeholderText: "Dur"
+        text: "0.25"
+
+        ToolTip {
+            parent: durationValue.handles
+            visible: durationValue.hovered 
+            text: 'Duration: ' + durationValue.text
+        }
+    }
+
+    TextField {
+        id: startNoteValue
+        y: 5
+        x: durationValue.x + durationValue.width + 10
+        width: 70
+        placeholderText: "Start Midi"
+        text: "36"
+
+        ToolTip {
+            parent: startNoteValue.handles
+            visible: startNoteValue.hovered 
+            text: 'Start midi note: ' + startNoteValue.text
+        }
+    }
+    
+    TextField {
+        id: endNoteValue
+        y: 5
+        x: startNoteValue.x + startNoteValue.width + 10
+        width: 70
+        placeholderText: "End Midi"
+        text: "83"
+
+        ToolTip {
+            parent: endNoteValue.handles
+            visible: endNoteValue.hovered 
+            text: 'End midi note: ' + endNoteValue.text
+        }
+    }
+
+
+    FileDialog {
+        id: fileDialog
+        title: "Save midi file"
+        folder: shortcuts.home
+        onAccepted: {
+            console.log("You chose: " + fileDialog.fileUrls)
+
+            var filename = fileDialog.fileUrls.toString().substr(8)
+            console.log("Filename", filename)
+
+            intervalsTable1.model.generateByIntervals(
+                filename, startNoteValue.text, endNoteValue.text)
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+        nameFilters: [ "MIDI files (*.midi *.mid)", "All files (*)" ]
+        selectExisting: false
+        Component.onCompleted: visible = false
     }
 
     Button {
         y: 5
         x: parent.width - width - 10
         text: "Save midi"
-
         onClicked: {
-            console.log("Started generation")
-            intervalsTable1.model.generateByIntervals("_.midi", 36, 83) //71
-            console.log("Finished generation")
+            fileDialog.visible = true
         }
-
     }
 
     Rectangle{
