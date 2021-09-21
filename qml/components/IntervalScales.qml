@@ -59,6 +59,34 @@ Item {
         }
     }
 
+    TextField {
+        id: baseNumber
+        y: 5
+        x: ratio.x + ratio.width + 10
+        placeholderText: "Base number"
+        text: "14"
+    }
+
+    ComboBox {
+        id: multiplyNumber
+        y: 5
+        x: baseNumber.x + baseNumber.width + 10
+        model : ["2", "3"]
+    }
+
+    Button {
+        y: 5
+        x: parent.width - width - 10
+        text: "Save midi"
+
+        onClicked: {
+            console.log("Started generation")
+            intervalsTable1.model.generateByIntervals("_.midi", 36, 83) //71
+            console.log("Finished generation")
+        }
+
+    }
+
     Rectangle{
     id: visualArea1
     width: parent.width

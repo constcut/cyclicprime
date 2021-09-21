@@ -1,7 +1,10 @@
+from typing import Sequence
 from PySide2 import QtGui, QtQml, QtCore
 from PySide2.QtCore import  QAbstractTableModel, QAbstractItemModel, QModelIndex, Qt, Slot, Signal, QObject, Slot
 from PySide2.QtQml import qmlRegisterType
 from PySide2.QtGui import QColor, QBrush
+
+
 
 def registerQMLTypes():
     qmlRegisterType(IntervalScalesModel, 'Athenum', 1,0, 'IntervalScalesModel')
@@ -32,13 +35,15 @@ class LogOctaves(QObject):
 
         
     @Slot(int)
-    def calc(self, elements):
+    def calc(self, elementsСount): 
         from Octaves import calculateOctaveScales, findSequences
-        scales = calculateOctaveScales(14, elements)
+        scales = calculateOctaveScales(14, elementsСount)
         intervals = [interval for scale in scales for interval in scale]
         self._l1.setData(intervals)
-        scalesNums = calculateOctaveScales(14, elements, type='numbers')
+        self._l1.setWidthMap([0,1,2])
+        scalesNums = calculateOctaveScales(14, elementsСount, type='numbers')
         self._l2.setData(scalesNums)
+        self._l2.setWidthMap([12,12,12,12,12,11,12,12])
         sequences, seqNames = findSequences(scalesNums)
         self._seqNames = seqNames
         seqMap = {}
@@ -54,9 +59,6 @@ class LogOctaves(QObject):
         self._l3.setWidthMap(seqMap)
         self._l3.setData(sequences)
         self._l3.setType(3)
-        self._l1.setWidthMap([0,1,2])
-        self._l2.setWidthMap([12,12,12,12,12,11,12,12])
-
 
 
     @Slot(int, result='QVariant')
@@ -88,9 +90,28 @@ class IntervalScalesModel(QAbstractTableModel):
 
     def setData(self, data):
         self._data = data
+        print("Data debug: ", data[:10])
 
     def setType(self, type):
         self._type = type
+
+    @Slot('QString', 'int', 'int')
+    def generateByIntervals(self, filename, startNote, endNote): #todo other params as duration, tempo etc
+        from Midi import MidiWriter
+        m = MidiWriter()
+        m.startNewFile()
+        s = []
+        currentNote = startNote
+        for interval in self._data:
+            s.append(currentNote)
+            m.addNote(currentNote, 0.5)
+            currentNote += interval
+            if currentNote > endNote:
+                currentNote -= endNote - startNote
+        m.saveToFile(filename)
+        print('Debuging')
+        print(s)
+        
 
     @Slot()
     def calc(self):
