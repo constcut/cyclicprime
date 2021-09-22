@@ -1,30 +1,6 @@
 from PySide2.QtCore import Qt, Slot, Signal, QObject
 from PySide2.QtQml import qmlRegisterType
 
-class MidiWriter(QObject):
-    def __init__(self,parent=None):
-        QObject.__init__(self,parent)
-
-    def startNewFile(self, tempo) :
-        from midiutil import MIDIFile
-        self._track    = 0
-        self._channel  = 0
-        self._time     = 0   # In beats
-        self._tempo    = tempo  # In BPM
-        self._volume   = 100 # 0-127, as per the MIDI standard
-        self.midiFile = MIDIFile(1) # One track, defaults to format 1 (tempo track)
-        self.midiFile.addTempo(self._track,self._time, self._tempo)
-                            
-    def addNote(self, pitch, duration) :
-        self.midiFile.addNote(self._track, self._channel, pitch, self._time, duration, self._volume);
-        self._time += duration
-
-    def saveToFile(self, filename) :
-        with open(filename, "wb") as output_file:
-            self.midiFile.writeFile(output_file)
-        print("Midi saved to file", filename)
-
-
 
 def midiMode(argv):
     num = 1
@@ -38,81 +14,116 @@ def midiMode(argv):
         denom = int(argv[3])
         numericSystem = int(argv[4])
     else:
-        print('Not enough arguments, -midi num denom numericSystem [all/else] [local/sum/')
+        print('Not enough arguments, -midi num denom numericSystem [all/else] [local/sum/diff]')
         return
-
     buildAllRationals = False
     if len(argv) > 5:
         if argv[5] == 'all':
             buildAllRationals = True
-
-    localMode = True
-    diffMode = False
-    sumMode = False
-    fileTail = ""
+    mode = "local"
     if len(argv) > 6:
-        fileTail = argv[6]
-        if argv[6] == "sum":
-            sumMode = True
-            localMode = False
-        if argv[6] == "diff":
-            diffMode = True
-            localMode = False
-        
+        mode = argv[6]
+    modulus = 24
+    generateMidiFile(denom, numericSystem, mode, buildAllRationals, num)
+    
 
+def addNotesFromDigits(digits, mode, modulus, midiWriter, duration=0.5, midiStart=36): #TODO add mode let ring like effect
+    lastValue = 0
+    sum = 0
+    for value in digits:
+        diff = lastValue - value
+        sum += value
+        if mode == "local":
+            midiNote = midiStart + (int(value) % modulus)
+        if mode == "sum":
+            midiNote = midiStart + (sum % modulus)
+        if mode == "diff":
+            midiNote = midiStart + (diff % modulus)
+        midiWriter.addNote(midiNote, duration)
+
+
+def generateMidiFile(denom, numericSystem, mode="local", buildAllRationals=False, 
+                        num = 1, tempo=150,  repeats=3, modulus=24, duration=0.5):
     from Midi import MidiWriter
     from Rational import Rational
     m = MidiWriter()
-    m.startNewFile(150)
-
-    
-
+    m.startNewFile(tempo)
     if buildAllRationals == True:
-        for repeats in range(3):
+        for repeats in range(repeats):
             for start in range(1, denom):
                 r = Rational()
                 r.calc(start, denom, numericSystem)
-                d = r.digits("fract")
-                lastValue = 0
-                sum = 0
-                for value in d:
-                    diff = lastValue - value
-                    sum += value
-                    if localMode == True:
-                        print("localNote")
-                        midiNote = 36 + int(value)
-                    if sumMode == True:
-                        print("SumNote")
-                        midiNote = 36 + (sum % 24)
-                    if diffMode == True:
-                        print("DiffMode")
-                        midiNote = 48 + diff
-                    m.addNote(midiNote, 0.5)
-
-        filename =  str(numericSystem) + "_full_" + str(denom) +  fileTail + ".midi"
+                addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration)
+        filename =  str(numericSystem) + "_full_" + str(denom) +  mode + ".midi"
     else:
         for repeats in range(3):
             r = Rational()
             r.calc(num, denom, numericSystem)
-            d = r.digits("fract")
-            lastValue = 0
-            sum = 0
-            for value in d:
-                diff = lastValue - value
-                sum += value
-                if localMode == True:
-                    print("localNote")
-                    midiNote = 36 + int(value)
-                if sumMode == True:
-                    print("SumNote")
-                    midiNote = 36 + (sum % 24)
-                if diffMode == True:
-                    print("DiffMode")
-                    midiNote = 48 + diff
-                m.addNote(midiNote, 0.5)
-        filename =  str(numericSystem) + "_single_" + str(num)  + "_" + str(denom) +  fileTail +  ".midi"
+            addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration)
+        filename =  str(numericSystem) + "_single_" + str(num)  + "_" + str(denom) +  mode +  ".midi"
     m.saveToFile(filename)
-    print('done midi actions')
+    return filename
+    
 
 
-    def generateMidi(allMode=True, num=1, denom, noteMode)
+def registerQMLTypes():
+    qmlRegisterType(Midi, 'Athenum', 1,0, 'Midi')
+def getQMLTypes():
+    theTypes = ['Midi']
+    return theTypes    
+
+
+class Midi(QObject):
+    def __init__(self, parent=None):
+        QObject.__init__(self, parent)
+
+    #TODO slot
+    def generateMidiFileFromRational(self, denom, numericSystem, mode="local", buildAllRationals=False, 
+                        num = 1, tempo=150,  repeats=3, modulus=24, duration=0.5):
+        self._lastGeneratedFile = generateMidiFile(denom, numericSystem, mode, buildAllRationals, 
+                        num, tempo, repeats, modulus, duration)
+        return self._lastGeneratedFile
+
+    #TODO slot
+    def playFile(self, filename):
+        import platform
+        platformName = platform.system()
+        if platformName == "Windows":
+            from WinMidi import playMidiFile
+            playMidiFile(filename)
+
+    #TODO slot
+    def playLastFile(self):
+        if self._lastGeneratedFile != None:
+            self._playFile(self._lastGeneratedFile)
+
+
+
+class MidiWriter(QObject):
+    def __init__(self,parent=None):
+        QObject.__init__(self,parent)
+
+
+    def startNewFile(self, tempo, instrument=0) :
+        from midiutil import MIDIFile
+        self._track    = 0
+        self._channel  = 0
+        self._time     = 0   # In beats
+        self._tempo    = tempo  # In BPM
+        self._volume   = 100 # 0-127, as per the MIDI standard
+        self.midiFile = MIDIFile(1) # One track, defaults to format 1 (tempo track)
+        self.midiFile.addTempo(self._track, self._time, self._tempo)
+        self.midiFile.addProgramChange(0, 0, 0, instrument)
+
+                            
+    def addNote(self, pitch, duration) :
+        self.midiFile.addNote(self._track, self._channel, pitch, self._time, duration, self._volume)
+        self._time += duration
+
+    def saveToFile(self, filename) :
+        with open(filename, "wb") as output_file:
+            self.midiFile.writeFile(output_file)
+        print("Midi saved to file", filename)
+
+
+

@@ -16,6 +16,14 @@ def reduceFraction(num, den):
     return int(rNum), int(rDen)
 
 
+
+def registerQMLTypes():
+    qmlRegisterType(Rational, 'Athenum', 1,0, 'Rational')
+def getQMLTypes():
+    theTypes = ['Rational']
+    return theTypes
+
+
 class Rational(QObject):
     def __init__(self,parent=None):
         QObject.__init__(self,parent)

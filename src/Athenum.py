@@ -58,8 +58,7 @@ def athenumEngineStart():
     engine = QQmlApplicationEngine()
     platformName = platform.system()
     print('Platform name is',platformName)
-    from Rational import Rational
-    qmlRegisterType(Rational, 'Athenum', 1,0, 'Rational') 
+    athenumModuleImport("Rational")
     athenumModuleImport("SumModels")
     athenumModuleImport("DigitalCircle")
     athenumModuleImport("PrimeScales")
@@ -68,6 +67,7 @@ def athenumEngineStart():
     athenumModuleImport("Primes")
     athenumModuleImport("GeometricProgression")
     athenumModuleImport("NumericSystem")
+    athenumModuleImport("Midi")
     copyClipboard = CopyClipboard()
     engine.rootContext().setContextProperty("athenumInfo",athenumInfo)
     engine.rootContext().setContextProperty("copyClipboard",copyClipboard)
