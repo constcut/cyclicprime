@@ -10,15 +10,23 @@ def listToStr(scaleList):
     return result
 
 
-def calculateOctaveScales(firstStep, n, type='lists'): #todo *3 penatonic also
+def calculateOctaveScales(firstStep, n, coef, type='lists+numbers'):
     scales = []
+    names = []
+    numbers = []
     import gmpy2
+    
+    if coef == 2:
+        totalInScale = 7
+    elif coef == 3:
+        totalInScale = 5
+
     currentStep = gmpy2.mpz(firstStep)
     prevSize = len(str(currentStep)) 
     anotherScale = []
-    for i in range(n*7):
-        if i % int(n*7/10) == 0:
-            print(i, " elements ",i/7," scales")
+    for i in range(n*totalInScale):
+        if i % int(n*totalInScale/10) == 0:
+            print(i, " elements ",i/totalInScale," scales")
         currentStep *= 2
         currentSize = len(str(currentStep))
         if currentSize == prevSize:
@@ -26,15 +34,26 @@ def calculateOctaveScales(firstStep, n, type='lists'): #todo *3 penatonic also
         else:
             anotherScale.append(1)
         prevSize = currentSize
-        if len(anotherScale) == 7:
+        if len(anotherScale) == totalInScale:
             if type == 'lists':
                 scales.append(anotherScale)
             elif type == 'names':
-                scales.append(translateScaleName(listToStr(anotherScale)))
+                names.append(translateScaleName(listToStr(anotherScale)))  #todo *3 penatonic also
             elif type == 'numbers':
-                scales.append(getScaleNumber(listToStr(anotherScale)))
+                numbers.append(getScaleNumber(listToStr(anotherScale)))
+            elif type == 'lists+numbers':
+                numbers.append(getScaleNumber(listToStr(anotherScale)))
+                scales.append(anotherScale)
             anotherScale = []
-    return scales
+    if type == 'lists':
+        return scales
+    if type == 'names':
+        return names
+    if type == 'numbers':
+        return numbers
+    if type == 'lists+numbers':
+        return scales, numbers
+
 
 def translateScaleName(scale):
     scale = scale.strip()

@@ -10,19 +10,14 @@ Item {
     property string athName: "IntervalsScales"
     property int prime: 7
 
-    Component.onCompleted:{
-        logOctaves.setScaleRatio(ratio.value/10.0)
-        intervalsTable1.model = logOctaves.getLine(1)
-        intervalsTable2.model = logOctaves.getLine(2)
-        intervalsTable3.model = logOctaves.getLine(3)
-        intervalsTable4.model = logOctaves.getLine(4)
-    }
-
     LogOctaves {
         id: logOctaves
     }
 
 
+    Component.onCompleted:{
+        updateTimer.running = true
+    }
 
     Timer {
           id:updateTimer
@@ -32,6 +27,9 @@ Item {
               intervalsTable2.model = undefined
               intervalsTable3.model = undefined
               intervalsTable4.model = undefined
+              logOctaves.setBaseNumber(baseNumber.text)
+              logOctaves.setNumberElements(scalesCount.text)
+              //logOctaves.setMultiplyFactor(multiplyNumber.currentText) //pentatonic requres rework
               logOctaves.setScaleRatio(ratio.value/10.0)
               intervalsTable1.model = logOctaves.getLine(1)
               intervalsTable2.model = logOctaves.getLine(2)
@@ -75,6 +73,7 @@ Item {
         }
     }
 
+    /*
     ComboBox {
         id: multiplyNumber
         y: 5
@@ -87,12 +86,12 @@ Item {
             visible: multiplyNumber.hovered 
             text: 'Multiply number: ' + multiplyNumber.text
         }
-    }
+    } */ //Pentatonic visualization requres better work around estimation scales and length
 
     TextField {
         id: tempoValue
         y: 5
-        x: multiplyNumber.x + multiplyNumber.width + 10
+        x: baseNumber.x + baseNumber.width + 10
         width: 70
         placeholderText: "Tempo"
         text: "180"
@@ -149,6 +148,31 @@ Item {
         }
     }
 
+    TextField {
+        id: scalesCount
+        y: 5
+        x: endNoteValue.x + endNoteValue.width + 10
+        width: 70
+        placeholderText: "Scales count"
+        text: "1000"
+
+        ToolTip {
+            parent: scalesCount.handles
+            visible: scalesCount.hovered 
+            text: 'Scales count: ' + scalesCount.text
+        }
+    }
+
+    Button {
+        id: calcButton
+        y: 5
+        x: scalesCount.x + scalesCount.width + 10
+        text: "Calc"
+        onClicked: {
+            updateTimer.running = true
+        }
+    }
+
     Item {
         id: dialogItem
         FileDialog {
@@ -156,17 +180,10 @@ Item {
             title: "Save midi file"
             folder: shortcuts.desktop
             onAccepted: {
-                console.log("You chose: " + fileDialog.fileUrls)
-
                 var filename = fileDialog.fileUrls.toString().substr(8)
-                console.log("Filename", filename)
-
                 intervalsTable1.model.generateByIntervals(
                     filename, startNoteValue.text, endNoteValue.text,
                     tempoValue.text, durationValue.text)
-            }
-            onRejected: {
-                console.log("Canceled")
             }
             nameFilters: [ "MIDI files (*.midi *.mid)", "All files (*)" ]
             selectExisting: false

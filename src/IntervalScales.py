@@ -17,11 +17,12 @@ class LogOctaves(QObject):
     def __init__(self,parent=None):
         QObject.__init__(self,parent)
         self._l1 = IntervalScalesModel()
-        self._l1.setType(1)
         self._l2 = IntervalScalesModel()
-        self._l2.setType(2)
         self._l3 = IntervalScalesModel()
         self._l4 = IntervalScalesModel()
+        self._multiplyFactor = 2
+        self._baseNumber = 14
+        self._elemenstCount = 100
         
     @Slot('int')
     def setNumberElements(self, elementsCount):
@@ -42,20 +43,27 @@ class LogOctaves(QObject):
         self._l3.setScaleRatio(ratio)
         self._l4.setScaleRatio(ratio)
         print("Chaning scales ratio to ", ratio)
-        self.calc(1000)
+        self.calc(self._elemenstCount)
 
         
     @Slot(int)
     def calc(self, elementsСount): 
-        baseNumber = 14
+        baseNumber = self._baseNumber
         from Octaves import calculateOctaveScales, findSequences
-        scales = calculateOctaveScales(baseNumber, elementsСount)
+        scales, scalesNums = calculateOctaveScales(baseNumber, elementsСount, self._multiplyFactor)
         intervals = [interval for scale in scales for interval in scale]
         self._l1.setData(intervals)
-        self._l1.setWidthMap([0,1,2])
-        scalesNums = calculateOctaveScales(baseNumber, elementsСount, type='numbers')
+        self._l1.setType(1)
+        if self._multiplyFactor == 2:
+            self._l1.setWidthMap([0,1,2])
+        elif self._multiplyFactor == 3:
+            self._l1.setWidthMap([0,2,3])
         self._l2.setData(scalesNums)
-        self._l2.setWidthMap([12,12,12,12,12,11,12,12])
+        self._l2.setType(2)
+        if self._multiplyFactor == 2:
+            self._l2.setWidthMap([12,12,12,12,12,11,12,12])
+        elif self._multiplyFactor == 3:
+            self._l2.setWidthMap([12,12,13,12,12,12])
         sequences, seqNames = findSequences(scalesNums)
         self._seqNames = seqNames
         seqMap = {}
@@ -64,7 +72,7 @@ class LogOctaves(QObject):
             for s in seq:
                 if s.isdigit():
                     if int(s) == 5:
-                        totalSum += 11
+                        totalSum += 11 #replace later
                     else:
                         totalSum += 12
             seqMap[seqNum] = totalSum 

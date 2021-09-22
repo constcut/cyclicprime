@@ -22,6 +22,5 @@ class MidiWriter(QObject):
     def saveToFile(self, filename) :
         with open(filename, "wb") as output_file:
             self.midiFile.writeFile(output_file)
-        print("Saved to file", filename)
-
+        print("Midi saved to file", filename)
 
