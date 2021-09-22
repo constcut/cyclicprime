@@ -6,8 +6,12 @@ This is aplication to visualise few of mathematical regularities related to the 
 - Full reptend prime numbers
 
 And it show how cyclic prime numbers class appears, was used to write a paper:
-_link to be inserted_
 
+https://arxiv.org/abs/2105.04400
+
+https://habr.com/ru/post/555548/
+
+https://habr.com/ru/post/556564/
 
 ## History
 
