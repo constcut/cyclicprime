@@ -26,45 +26,6 @@ def consoleMode(argv):
         checkCyclicPrimes(P)
 
 
-def midiMode(argv):
-    if len(argv) > 4:
-        print("Argv[2]: num = ", argv[2])
-        print("Argv[3]: denom = ", argv[3])
-        print("Argv[4]: numericSystem = ", argv[4])
-        num = int(argv[2])
-        denom = int(argv[3])
-        numericSystem = int(argv[4])
-    else:
-        print('Not enough arguments, -midi num denom numericSystem [all]')
-        return
-
-    buildAllRationals = False
-    if len(argv) > 5:
-        if argv[5] == 'all':
-            buildAllRationals = True
-
-    from Midi import MidiWriter
-    from Rational import Rational
-    m = MidiWriter()
-    m.startNewFile(150)
-    if buildAllRationals == True:
-        for repeats in range(3):
-            for start in range(1, denom):
-                r = Rational()
-                r.calc(start, denom, numericSystem)
-                d = r.digits("fract")
-                for v in d:
-                    m.addNote(36 + int(v), 0.5)
-        filename =  str(numericSystem) + "_full_" + str(denom) + ".midi"
-    else:
-        for repeats in range(3):
-            r = Rational()
-            r.calc(num, denom, numericSystem)
-            d = r.digits("fract")
-            for v in d:
-                m.addNote(36 + int(v), 0.5)
-        filename =  str(numericSystem) + "_single_" + str(num)  + "_" + str(denom) + ".midi"
-    m.saveToFile(filename)
 
 
 def athenumModuleImport(moduleName):
@@ -89,6 +50,7 @@ def athenumEngineStart():
             sys.exit(0)
         if sys.argv[1] == '-midi':
             print("Midi generation mode activated")
+            from Midi import midiMode
             midiMode(sys.argv)
             sys.exit(0)
 
