@@ -67,6 +67,24 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 You may also experience issues with PySide2 using 64 bit Python interpriter on Windows, so suggestion is to use 32bit version.
 
+For using midi features you will also need to instal midiutil
+
+```
+pip install midiutil
+```
+
+Midi options are availible on IntervalScales component, and can be accessed through the "Save midi" button.
+
+Another option is to generate midi from fractions in certain numric system.
+
+```
+python ath.py -midi numerator denomerator numericSystem [all]
+```
+
+if argument "all" passed - then there would be done generation from all rationals: 1/denom .. denom-1/denom.
+In other case generation will be done only for num/denom in certain numeric system.
+
+
 Project was running at Linux/MacOs/Windows - but the very last version tested only on Windows.
 
 ## Excuses
