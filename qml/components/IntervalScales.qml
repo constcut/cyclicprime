@@ -188,7 +188,7 @@ Item {
             nameFilters: [ "MIDI files (*.midi *.mid)", "All files (*)" ]
             selectExisting: false
             visible: false
-        } //Проблема из-за диалога.. теряются правильные размеры - перенести как это
+        } 
     }
 
     Button {

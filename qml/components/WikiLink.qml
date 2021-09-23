@@ -8,7 +8,7 @@ Rectangle {
         id: wikiImage
         width: 30
         height: 30
-        source: "file:///" + athenumInfo.getPath() + '/img/' + wikiItem.type + '.png'
+        source: Qt.resolvedUrl("file:///" + athenumInfo.getPath() + '/img/' + wikiItem.type + '.png')
         ToolTip {
             visible: mouseArea.containsMouse
             text: pageName + ' ' + link

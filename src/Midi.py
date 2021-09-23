@@ -63,6 +63,20 @@ def checkForScale(notesDict):
     return listOfScales
 
 
+intervalsCons = {0:"perfect", 1: "dis", 2: "dis", 3: "unperfect", 4: "unperfect",
+5: "almost", 6: "dis", 7: "almost", 8: "unperfect", 9: "unperfect", 10: "dis", 11: "dis"}
+
+
+def checkConsonanse(intervalsDict):
+    intervalsSet = set()
+    for interval, count in intervalsDict.items():
+        interval = abs(interval)
+        while interval > 12 :
+            interval -= 12
+        intervalsSet.add(intervalsCons[interval])
+    return intervalsSet
+
+
 def addNotesFromDigits(digits, mode, modulus, midiWriter, duration=0.5, midiStart=36): #TODO add mode let ring like effect
     lastValue = 0
     sum = 0
@@ -91,9 +105,7 @@ def addNotesFromDigits(digits, mode, modulus, midiWriter, duration=0.5, midiStar
 
         prevNote = midiNote
         midiWriter.addNote(midiNote, duration)
-    #print(notesDict)
-    return checkForScale(notesDict)
-    #print(intervalsDict)
+    return checkForScale(notesDict), checkConsonanse(intervalsDict)
 
 
 def generateMidiFile(denom, numericSystem, mode="local", buildAllRationals=False, 
@@ -101,6 +113,7 @@ def generateMidiFile(denom, numericSystem, mode="local", buildAllRationals=False
     from Midi import MidiWriter
     from Rational import Rational
     scalesSet = set()
+    intervalsSet = set()
     m = MidiWriter()
     m.startNewFile(tempo)
     if buildAllRationals == True:
@@ -108,20 +121,22 @@ def generateMidiFile(denom, numericSystem, mode="local", buildAllRationals=False
             for start in range(1, denom):
                 r = Rational()
                 r.calc(start, denom, numericSystem)
-                scalesList = addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration) #TODO move outside repeats cycle
+                scalesList, intervals = addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration) #TODO move outside repeats cycle
                 scalesSet.update(scalesList)
+                intervalsSet.update(intervals)
         if filename == "":
             filename =  str(numericSystem) + "_full_" + str(denom) +  mode + ".midi"
     else:
-        for repeats in range(3):
+        for repeats in range(repeats):
             r = Rational()
             r.calc(num, denom, numericSystem)
-            scalesList = addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration) #TODO move outside repeats cycle
+            scalesList, intervals = addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration) #TODO move outside repeats cycle
             scalesSet.update(scalesList)
+            intervalsSet.update(intervals)
         if filename == "":
             filename =  str(numericSystem) + "_single_" + str(num)  + "_" + str(denom) +  mode +  ".midi"
     m.saveToFile(filename)
-    return filename, scalesSet
+    return filename, scalesSet, intervalsSet
     
 
 
@@ -143,12 +158,16 @@ class Midi(QObject):
     def getLastScales(self):
         return ' '.join(list(self._lastScalesSet))
 
+    @Slot(result='QVariant')
+    def getLastIntervals(self):
+        return ' '.join(list(self._lastIntervalsSet))
+
 
     @Slot('int','int','QString', 'bool', 'int', 'int', 'int', 'int', 'float', 'QString', result='QString')
     def generateMidiFileFromRational(self, denom, numericSystem, mode="local", buildAllRationals=False, 
                         num = 1, tempo=150,  repeats=3, modulus=24, duration=0.5, filename=""):
-        self._lastGeneratedFile, self._lastScalesSet = generateMidiFile(denom, numericSystem, mode, buildAllRationals, 
-                        num, tempo, repeats, modulus, duration, filename)
+        self._lastGeneratedFile, self._lastScalesSet, self._lastIntervalsSet = generateMidiFile(
+            denom, numericSystem, mode, buildAllRationals, num, tempo, repeats, modulus, duration, filename)
         return self._lastGeneratedFile
 
     @Slot('QString')

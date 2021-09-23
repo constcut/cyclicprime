@@ -182,6 +182,7 @@ Item {
             repeatsValue.text, modValue.text, rhythmList.text, "")
             midiManager.playLastFile()
             scalesNames.text = midiManager.getLastScales()
+            intervalsTypes.text = midiManager.getLastIntervals()
         }
     }
 
@@ -190,6 +191,13 @@ Item {
         y: playButton.y + playButton.height + 10
         x: playButton.x
         text: "Names of possible scales"
+    }
+
+    Text {
+        id: intervalsTypes
+        y: scalesNames.y + scalesNames.height + 10
+        x: playButton.x
+        text: "Types of intervals"
     }
 
     Button {
@@ -218,7 +226,7 @@ Item {
             nameFilters: [ "MIDI files (*.midi *.mid)", "All files (*)" ]
             selectExisting: false
             visible: false
-        } //Проблема из-за диалога.. теряются правильные размеры - перенести как это
+        } 
     }
 
     Button {
