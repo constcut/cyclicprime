@@ -1,6 +1,6 @@
 from PySide2.QtCore import Qt, Slot, Signal, QObject
 from PySide2.QtQml import qmlRegisterType
-
+import platform
 
 def midiMode(argv):
     num = 1
@@ -76,6 +76,9 @@ def getQMLTypes():
 class Midi(QObject):
     def __init__(self, parent=None):
         QObject.__init__(self, parent)
+        if platform.system() == "Windows":
+            from WinMidi import WindowsMidi
+            self._winMidi = WindowsMidi()
 
     @Slot('int','int','QString', 'bool', 'int', 'int', 'int', 'int', 'float', result='QString')
     def generateMidiFileFromRational(self, denom, numericSystem, mode="local", buildAllRationals=False, 
@@ -86,16 +89,18 @@ class Midi(QObject):
 
     @Slot('QString')
     def playFile(self, filename):
-        import platform
-        platformName = platform.system()
-        if platformName == "Windows":
-            from WinMidi import playMidiFile
-            playMidiFile(filename)
+        if platform.system() == "Windows":    
+            self._winMidi.playMidiFile(filename)
 
     @Slot()
     def playLastFile(self):
         if self._lastGeneratedFile != None:
             self.playFile(self._lastGeneratedFile)
+
+    @Slot()
+    def stop(self):
+        if platform.system() == "Windows":
+            self._winMidi.stopMidi()
 
 
 

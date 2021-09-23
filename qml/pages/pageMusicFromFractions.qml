@@ -13,6 +13,10 @@ Item {
         id: midiManager
     }
 
+    Component.onDestruction :{
+        midiManager.stop()
+    }
+
     /*
     Slider {
         id: ratio
@@ -182,10 +186,21 @@ Item {
         x: tempoValue.x + tempoValue.width + 10
         text: "Play"
         onClicked: {
+            midiManager.stop() //To insure file access released
             midiManager.generateMidiFileFromRational(denominator.text, numericSystem.text,
             typeCombo.currentText, fullSequence.checked, numerator.text, tempoValue.text,
             repeatsValue.text, modValue.text, rhythmList.text)
             midiManager.playLastFile()
+        }
+    }
+
+    Button {
+        id: stopButton
+        y: 20
+        x: playButton.x + playButton.width + 10
+        text: "Stop"
+        onClicked: {
+            midiManager.stop()
         }
     }
 
