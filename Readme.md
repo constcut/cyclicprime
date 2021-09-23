@@ -79,14 +79,24 @@ pip install midiutil
 
 Midi options are availible on IntervalScales component, and can be accessed through the "Save midi" button.
 
+It accessible on IntervalScales component.
+
+![PrimeScales screenshot](info/screenshots/IntervalScales.png)
+
+Also generation availible on page MusicFromFractions.
+
+![PrimeScales screenshot](info/screenshots/MusicFromFractions.png)
+
 Another option is to generate midi from fractions in certain numric system.
 
 ```
-python ath.py -midi numerator denomerator numericSystem [all]
+python ath.py -midi num denom numericSystem [all/else] [local/sum/diff]
 ```
 
 if argument "all" passed - then there would be done generation from all rationals: 1/denom .. denom-1/denom.
 In other case generation will be done only for num/denom in certain numeric system.
+
+Arguemnts "local/sum/diff" make different ways to produce midi notes values;
 
 
 Project was running at Linux/MacOs/Windows - but the very last version tested only on Windows.
