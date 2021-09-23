@@ -77,14 +77,14 @@ class Midi(QObject):
     def __init__(self, parent=None):
         QObject.__init__(self, parent)
 
-    #TODO slot
+    @Slot('int','int','QString', 'bool', 'int', 'int', 'int', 'int', 'float', result='QString')
     def generateMidiFileFromRational(self, denom, numericSystem, mode="local", buildAllRationals=False, 
                         num = 1, tempo=150,  repeats=3, modulus=24, duration=0.5):
         self._lastGeneratedFile = generateMidiFile(denom, numericSystem, mode, buildAllRationals, 
                         num, tempo, repeats, modulus, duration)
         return self._lastGeneratedFile
 
-    #TODO slot
+    @Slot('QString')
     def playFile(self, filename):
         import platform
         platformName = platform.system()
@@ -92,10 +92,10 @@ class Midi(QObject):
             from WinMidi import playMidiFile
             playMidiFile(filename)
 
-    #TODO slot
+    @Slot()
     def playLastFile(self):
         if self._lastGeneratedFile != None:
-            self._playFile(self._lastGeneratedFile)
+            self.playFile(self._lastGeneratedFile)
 
 
 
