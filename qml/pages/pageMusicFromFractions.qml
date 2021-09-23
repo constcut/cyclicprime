@@ -141,21 +141,11 @@ Item {
         model : ["local", "sum", "diff", "all"]
     }
 
-    //Tempo, instrument? 
-
-    Button {
-        id: calcButton
-        y: 20
-        x: typeCombo.x + typeCombo.width + 10
-        text: "Calc"
-        onClicked: {
-        }
-    }
 
     TextField {
         id: tempoValue
         y: 20
-        x: calcButton.x + calcButton.width + 20
+        x: typeCombo.x + typeCombo.width + 20
         width: 70
         placeholderText: "tempo"
         text: "150"
@@ -183,7 +173,7 @@ Item {
     Button {
         id: playButton
         y: 20
-        x: tempoValue.x + tempoValue.width + 10
+        x: repeatsValue.x + repeatsValue.width + 10
         text: "Play"
         onClicked: {
             midiManager.stop() //To insure file access released

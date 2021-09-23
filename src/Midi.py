@@ -27,9 +27,47 @@ def midiMode(argv):
     generateMidiFile(denom, numericSystem, mode, buildAllRationals, num)
     
 
+ionianScale = {0:1, 2:1, 4:1, 5:1, 7:1, 9:1, 11:1}
+miksolidianScale = {0:1, 2:1, 4:1, 5:1, 7:1, 9:1, 10:1}
+dorianScale = {0:1, 2:1, 3:1, 5:1, 7:1, 9:1, 10:1}
+eolianScale = {0:1, 2:1, 3:1, 5:1, 7:1, 8:1, 10:1}
+frigianScale = {0:1, 1:1, 3:1, 5:1, 7:1, 8:1, 10:1}
+lokrianScale = {0:1, 1:1, 3:1, 5:1, 6:1, 8:1, 10:1}
+lidianScale = {0:1, 2:1, 4:1, 6:1, 7:1, 9:1, 11:1}
+
+ionianSharp = {0:1, 1:1, 3:1, 5:1, 6:1, 8:1, 10:1}
+miksolidianSharp = {1:1, 3:1, 5:1, 6:1, 8:1, 10:1, 11:1}
+dorianSharp = {1:1, 3:1, 4:1, 6:1, 8:1, 10:1, 11:1}
+eolianSharp = {1:1, 3:1, 4:1, 6:1, 8:1, 9:1, 11:1}
+frigianSharp = {1:1, 2:1, 4:1, 6:1, 8:1, 9:1, 11:1}
+lokrianSharp = {1:1, 2:1, 4:1, 6:1, 7:1, 9:1, 11:1}
+lidianSharp = {0:1, 1:1, 3:1, 5:1, 7:1, 8:1, 10:1}
+
+scales = {"ionianScale":ionianScale, "miksolidianScale":miksolidianScale, "dorianScale":dorianScale,
+"eolianScale":eolianScale, "frigianScale": frigianScale, "lokrianScale":lokrianScale,"lidianScale":lidianScale,
+"ionianSharp":ionianSharp, "miksolidianSharp":miksolidianSharp, "dorianSharp":dorianSharp,
+"eolianSharp":eolianSharp, "frigianSharp": frigianSharp, "lokrianSharp":lokrianSharp,"lidianSharp":lidianSharp}
+
+
+def checkForScale(notesDict):
+    listOfScales = []
+    for scaleName, scaleDict in scales.items():
+        scaleIsFine = True
+        for key, value in notesDict.items():
+            if scaleDict.get(key) == None:
+                scaleIsFine = False
+                break
+        if scaleIsFine:
+            listOfScales.append(scaleName)
+    print(listOfScales)
+
+
 def addNotesFromDigits(digits, mode, modulus, midiWriter, duration=0.5, midiStart=36): #TODO add mode let ring like effect
     lastValue = 0
     sum = 0
+    prevNote = midiStart
+    notesDict = dict()
+    intervalsDict = dict()
     for value in digits:
         diff = lastValue - value
         sum += value
@@ -39,7 +77,22 @@ def addNotesFromDigits(digits, mode, modulus, midiWriter, duration=0.5, midiStar
             midiNote = midiStart + (sum % modulus)
         if mode == "diff":
             midiNote = midiStart + (diff % modulus)
+
+        if notesDict.get(midiNote % 12) == None:
+            notesDict[midiNote % 12] = 1
+        else:    
+            notesDict[midiNote % 12] = notesDict.get(midiNote % 12) + 1 
+
+        if intervalsDict.get(midiNote - prevNote) == None:
+            intervalsDict[midiNote - prevNote] = 1 
+        else:
+            intervalsDict[midiNote - prevNote] = intervalsDict.get(midiNote - prevNote) + 1
+
+        prevNote = midiNote
         midiWriter.addNote(midiNote, duration)
+    print(notesDict)
+    checkForScale(notesDict)
+    print(intervalsDict)
 
 
 def generateMidiFile(denom, numericSystem, mode="local", buildAllRationals=False, 
@@ -53,13 +106,13 @@ def generateMidiFile(denom, numericSystem, mode="local", buildAllRationals=False
             for start in range(1, denom):
                 r = Rational()
                 r.calc(start, denom, numericSystem)
-                addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration)
+                addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration) #TODO move outside repeats cycle
         filename =  str(numericSystem) + "_full_" + str(denom) +  mode + ".midi"
     else:
         for repeats in range(3):
             r = Rational()
             r.calc(num, denom, numericSystem)
-            addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration)
+            addNotesFromDigits(r.digits("fract"), mode, modulus, m, duration) #TODO move outside repeats cycle
         filename =  str(numericSystem) + "_single_" + str(num)  + "_" + str(denom) +  mode +  ".midi"
     m.saveToFile(filename)
     return filename

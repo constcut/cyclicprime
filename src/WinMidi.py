@@ -23,15 +23,10 @@ class WindowsMidi:
     def playMidiThreadFun(self, filename):
         buf = c_buffer(255)
         filesystemencoding = getfilesystemencoding()
-        closeCommand = 'close testX'
         openCommand = 'open ' + filename + ' type sequencer alias testX' 
         playCommand = 'play testX'
-        stopCode = int(self.winmm.mciSendStringA(closeCommand.encode(filesystemencoding), buf, 254, 0))
-        if stopCode == 263:
-            self.printErrorCode(stopCode, "close")
         self.printErrorCode(int(self.winmm.mciSendStringA(openCommand.encode(filesystemencoding), buf, 254, 0)), "open")
         self.printErrorCode(int(self.winmm.mciSendStringA(playCommand.encode(filesystemencoding), buf, 254, 0)), "play")
-        
         while (self._playMidi == True):
             sleep(0.05)
         closeCommand = 'stop testX'
