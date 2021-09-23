@@ -125,4 +125,5 @@ Cyclic prime numbers propbably wouldn't be involed in this code, but few other t
 
 There is also repo for OEIS sequence generation related to cyclic prime numbers: https://github.com/constcut/cyclicprime-cli/blob/main/cyclicprime.py
 
-And repo for a digital root: https://github.com/constcut/digitalroot
+Yet a little abadoned :)
+
