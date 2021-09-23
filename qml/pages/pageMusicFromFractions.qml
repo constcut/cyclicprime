@@ -179,9 +179,17 @@ Item {
             midiManager.stop() //To insure file access released
             midiManager.generateMidiFileFromRational(denominator.text, numericSystem.text,
             typeCombo.currentText, fullSequence.checked, numerator.text, tempoValue.text,
-            repeatsValue.text, modValue.text, rhythmList.text)
+            repeatsValue.text, modValue.text, rhythmList.text, "")
             midiManager.playLastFile()
+            scalesNames.text = midiManager.getLastScales()
         }
+    }
+
+    Text {
+        id: scalesNames
+        y: playButton.y + playButton.height + 10
+        x: playButton.x
+        text: "Names of possible scales"
     }
 
     Button {
@@ -202,9 +210,10 @@ Item {
             folder: shortcuts.desktop
             onAccepted: {
                 var filename = fileDialog.fileUrls.toString().substr(8)
-                intervalsTable1.model.generateByIntervals(
-                    filename, startNoteValue.text, endNoteValue.text,
-                    tempoValue.text, durationValue.text)
+                midiManager.stop() //To insure file access released
+                midiManager.generateMidiFileFromRational(denominator.text, numericSystem.text,
+                typeCombo.currentText, fullSequence.checked, numerator.text, tempoValue.text,
+                repeatsValue.text, modValue.text, rhythmList.text, filename)
             }
             nameFilters: [ "MIDI files (*.midi *.mid)", "All files (*)" ]
             selectExisting: false
