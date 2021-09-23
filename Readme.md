@@ -122,3 +122,7 @@ This repo is a clone of https://github.com/eversearch/cyclicprime
 Both repositories would be present for historical resons, but further development would appear in current one.
 
 Cyclic prime numbers propbably wouldn't be involed in this code, but few other themes for following papers would be done here.
+
+There is also repo for OEIS sequence generation related to cyclic prime numbers: https://github.com/constcut/cyclicprime-cli/blob/main/cyclicprime.py
+
+And repo for a digital root: https://github.com/constcut/digitalroot
