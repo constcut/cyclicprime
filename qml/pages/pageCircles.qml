@@ -148,10 +148,7 @@ Item {
 
         onClicked : {
             var prime = parseInt(primesCombo.text)
-            console.log(prime)
-
             //a little dirty but fast to write code
-
             for (var i = 2; i < prime; ++i) {
                 rational.calc(1, prime, i)
                 var d = rational.digits("fract", 0)
@@ -161,7 +158,6 @@ Item {
                     circleRepeater.itemAt(pageCircles.circlesCount).add(d2, i + prime, true, true, "#00ff00")
                     circleRepeater.itemAt(pageCircles.circlesCount).add(d, i, true, false, "#00ff00") 
                     pageCircles.circlesCount += 1
-                    print(i, "got full reptend")
                 }
             }
         }

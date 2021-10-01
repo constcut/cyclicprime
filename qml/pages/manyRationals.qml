@@ -22,6 +22,14 @@ Item {
                     addPrimeToCircle(i,prime,numericSystem,oro,2)      
         }
     }
+    Component.onDestruction : {
+        circle.stopAnimation()
+        circle2.stopAnimation()
+        circle3.stopAnimation()
+        circle4.stopAnimation()
+        circle5.stopAnimation()
+        circle6.stopAnimation()
+    }
 
     DigitalCircleList{
         id: circle
@@ -85,11 +93,17 @@ Item {
         x: 5
         model: ["All of rationals from 1/7 till 6/7", "All rationals from 1/49 till 48/49",
                 "All rationals from 1/91 till 90/91", "1/13 .. 12/13", "1/5..4/5", "1/3 and 2/3",
-                "FIRST NON REPTEND", "FIRST REPTEND", "11", "13", "penta", "Num reduction Mult dec", "Num red mult 9+8", "Num exp 7+6","Num red mult 7"]
+                "FIRST NON REPTEND", "FIRST REPTEND", "11", "13", "penta", "Num reduction Mult dec", "1/7 24 rotations", "1/7 12 rotations","1/7 10 rotations"]
 
         width: parent.width/2 - 50
 
         function reset() {
+            circle.stopAnimation()
+            circle2.stopAnimation()
+            circle3.stopAnimation()
+            circle4.stopAnimation()
+            circle5.stopAnimation()
+            circle6.stopAnimation()
             circle.reset()
             circle2.reset()
             circle3.reset()
@@ -101,6 +115,7 @@ Item {
         onActivated: {
             reset()
 
+            //#TODO перести в cicles page, и там позволять операции реверсирования
             if (index == 0) {
                 scale = 10
                 addPrimeToCircleColored(1,7,scale,true,1, "#ff0000")
@@ -280,31 +295,64 @@ Item {
                 circle6.add([2, 4, 8, 7, 5, 1], 10, true, true, colorValue) 
             }    
             else if (index == 12) {
+                /*
                 var colorValue = "#00ff00"
                 var oro = true
-
                 circle.add([2, 4, 6, 8, 2, 4, 6], 9, true, oro, colorValue) 
                 circle2.add([3, 6, 1, 4, 7, 2, 5], 9, true, oro, colorValue) 
-
-
                 circle4.add([2, 4, 6, 1, 3, 5], 8, true, oro, colorValue) 
                 circle5.add([3, 6, 2, 5, 1, 4], 8, true, oro, colorValue) 
+                circle6.add([3, 2, 6, 4, 5, 1], 8, true, oro, colorValue) */
+                addPrimeToCircle(1,7,24,true,2)
+                addPrimeToCircle(30,161,24,true,2)
+                addPrimeToCircle(37, 161, 24,true,2)
+                addPrimeToCircle(44, 161, 24,true,2)
+                addPrimeToCircle(60522477, 191102975, 24,true,2)
+                addPrimeToCircle(68831302, 191102975, 24,true,2)
+                addPrimeToCircle(77140127, 191102975, 24,true,2)
+                addPrimeToCircle(85448929, 191102975, 24,true,2)
+                addPrimeToCircle(93757754, 191102975, 24,true,2)
+                addPrimeToCircle(102066579, 191102975, 24,true,2)
+                addPrimeToCircle(110375404, 191102975, 24,true,2)
 
-                circle6.add([3, 2, 6, 4, 5, 1], 8, true, oro, colorValue) //still 6??
+                addPrimeToCircle(28211,45425,24,true,2)
+                addPrimeToCircle(30186, 45425,24,true,2)
+                addPrimeToCircle(32161, 45425, 24,true,2)
+                addPrimeToCircle(135979304, 191102975, 24,true,2)
+                addPrimeToCircle(144288129, 191102975, 24,true,2)
+                addPrimeToCircle(152596954, 191102975, 24,true,2)
+                addPrimeToCircle(160905779, 191102975, 24,true,2)
+                addPrimeToCircle(168896652, 191102975, 24,true,2)
+                addPrimeToCircle(177205477, 191102975, 24,true,2)
+                addPrimeToCircle(185514302, 191102975, 24,true,2)
+                addPrimeToCircle(9, 161, 24,true,2)
+                addPrimeToCircle(16, 161, 24,true,2)
 
             }    
             else if (index == 13) {
+                addPrimeToCircle(1,7,12,true,2)
+                addPrimeToCircle(18,77,12,true,2)
+                addPrimeToCircle(967891, 2985983, 12,true,2)
+                addPrimeToCircle(1239344, 2985983, 12,true,2)
+                addPrimeToCircle(183243, 426569, 12,true,2)
+                addPrimeToCircle(222022, 426569, 12,true,2)
+                addPrimeToCircle(11507, 19019, 12,true,2)
+                addPrimeToCircle(296863, 426569, 12,true,2)
+                addPrimeToCircle(335642, 426569, 12,true,2)
+                addPrimeToCircle(2620815, 2985983, 12,true,2)
+                addPrimeToCircle(2892268, 2985983, 12,true,2)
 
-                var oro = true
-                var colorValue = "#00ff00"
-                circle.add([2, 4, 3, 1], 6, true, oro, colorValue) 
-                circle2.add([2, 4, 1, 3], 6, true, oro, colorValue) 
-    
-
-     
             } 
             else if (index == 14) {
-
+                addPrimeToCircle(1,7,10,true,2)
+                addPrimeToCircle(16,63,10,true,2)
+                addPrimeToCircle(121393, 333333, 10,true,2)
+                addPrimeToCircle(17603, 37037, 10,true,2)
+                addPrimeToCircle(195464, 333333, 10,true,2)
+                addPrimeToCircle(6283, 9009, 10,true,2)
+                addPrimeToCircle(26612, 37037, 10,true,2)
+                addPrimeToCircle(276545, 333333, 10,true,2)
+                addPrimeToCircle(310582, 333333, 10,true,2)
             } 
 
             
