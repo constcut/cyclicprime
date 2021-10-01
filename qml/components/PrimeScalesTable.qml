@@ -53,6 +53,14 @@ Item {
                                 "lightBlue"
                                 : display[1] === 3 ?
                                 "#FFFF77"
+                                : display[1] === 4 ? 
+                                "lightGray"
+                                : display[1] === 5 ?
+                                "darkGray"
+                                : display[1] === 6 ?
+                                "lightCyan"
+                                : display[1] === 7 ?
+                                "cyan"
                                 : "white"     
                             }
                             if (viewMode === "P-1") {
@@ -66,6 +74,22 @@ Item {
                             if (viewMode === "(P-1)/3"){
                                 if (display[1] === 3) 
                                     color = "#FFFF77"    
+                            }
+                            if (viewMode === "(P-1)/4"){
+                                if (display[1] === 4) 
+                                    color = "lightGray"    
+                            }
+                            if (viewMode === "(P-1)/5"){
+                                if (display[1] === 5) 
+                                    color = "darkGray"    
+                            }
+                            if (viewMode === "(P-1)/6"){
+                                if (display[1] === 6) 
+                                    color = "lightCyan"    
+                            }
+                            if (viewMode === "(P-1)/7"){
+                                if (display[1] === 7) 
+                                    color = "cyan"    
                             }
 
                             return color
@@ -105,8 +129,8 @@ Item {
                         display[1] === 1 ?
                             "P-1"
                           : display[1] === 2 ?
-                            "P-2"
-                          : ""
+                            "(P-1)/2"
+                          : "/x"
                     y: parent.height - height
                     visible: primeScalesItem.elementSize > 70
                 }

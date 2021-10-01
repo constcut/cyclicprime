@@ -78,6 +78,14 @@ class PrimeScales(QAbstractTableModel):
                     displayClass = 2
                 elif localScalePeriod[subIndex] == (primeNum - 1) / 3:
                     displayClass = 3
+                elif localScalePeriod[subIndex] == (primeNum - 1) / 4:
+                    displayClass = 4
+                elif localScalePeriod[subIndex] == (primeNum - 1) / 5:
+                    displayClass = 5
+                elif localScalePeriod[subIndex] == (primeNum - 1) / 6:
+                    displayClass = 6
+                elif localScalePeriod[subIndex] == (primeNum - 1) / 7:
+                    displayClass = 7
                 return [localScalePeriod[subIndex],displayClass]
 
         return ['   ',displayClass]

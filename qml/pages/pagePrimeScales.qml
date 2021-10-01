@@ -108,8 +108,8 @@ Item {
         y: 5
         x: parent.width * 3/4
         width: parent.width/4 - 30
-        model: ["P-1", "(P-1)/2", "(P-1)/3", "All"]
-        currentIndex: 3
+        model: ["P-1", "(P-1)/2", "(P-1)/3", "(P-1)/4", "(P-1)/5", "(P-1)/6", "(P-1)/7",  "All"]
+        currentIndex: 7
         onCurrentIndexChanged:{
             updateTimer.restart()
         }
