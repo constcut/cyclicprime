@@ -119,17 +119,13 @@ class IntervalScalesModel(QAbstractTableModel):
         from Midi import MidiWriter
         m = MidiWriter()
         m.startNewFile(tempo)
-        s = []
         currentNote = startNote
         for interval in self._data:
-            s.append(currentNote)
             m.addNote(currentNote, duration)
             currentNote += interval
             if currentNote > endNote:
                 currentNote -= endNote - startNote
         m.saveToFile(filename)
-        #print('Debuging')
-        #print(s) #TODO insure there are no repeats
         
 
     @Slot()

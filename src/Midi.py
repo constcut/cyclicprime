@@ -105,7 +105,7 @@ def addNotesFromDigits(digits, mode, modulus, midiWriter, duration=0.5, midiStar
 
         prevNote = midiNote
         midiWriter.addNote(midiNote, duration)
-    return checkForScale(notesDict), checkConsonanse(intervalsDict)
+    return set(), set() #checkForScale(notesDict), checkConsonanse(intervalsDict)
 
 
 def generateMidiFile(denom, numericSystem, mode="local", buildAllRationals=False, 

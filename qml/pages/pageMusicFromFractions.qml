@@ -5,7 +5,7 @@ import QtQml 2.12
 import QtQuick.Dialogs 1.3
 
 Item {
-    id: autoSumItem
+    id: musicFromFractions
 
     property string athName: "MusicFromFractions"
 
@@ -183,6 +183,9 @@ Item {
             midiManager.playLastFile()
             scalesNames.text = midiManager.getLastScales()
             intervalsTypes.text = midiManager.getLastIntervals()
+            rational.calc(numerator.text, denominator.text, numericSystem.text)
+            var digits = rational.digits('fract',0)
+            //circle2.add(digits, numericSystem, true, parseInt(denominator) > parseInt(numericSystem)), "green")
         }
     }
 
