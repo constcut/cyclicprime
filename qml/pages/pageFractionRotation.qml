@@ -9,30 +9,10 @@ Item {
 
     property string athName: "FractionRotation"
 
-    /*
-    Slider {
-        id: ratio
-        from: 2
-        to: 100
-        value: 100
-        stepSize: 1
-        y: 20
-        x: 0
-        width: parent.width/4
-        onValueChanged: {
-            updateTimer.restart()
-        }
-        ToolTip {
-            parent: ratio.handles
-            visible: ratio.hovered 
-            text: 'Scale ratio: ' + ratio.value
-        }
-    }*/
-
     TextField {
         id: numerator
         y: 20
-        x: 5 + 150
+        x: 5 + 10
         width: 70
         placeholderText: "numerator"
         text: "1"
@@ -64,7 +44,7 @@ Item {
         x: denominator.x + denominator.width + 10
         width: 70
         placeholderText: "Num sys"
-        text: "24"
+        text: "10" //replace with 24 or else
 
         ToolTip {
             parent: numericSystem.handles
@@ -73,14 +53,34 @@ Item {
         }
     }
 
+    Button {
+        id: calcButton
+        y: 20
+        x: numericSystem.x + numericSystem.width + 10
+        text: "calc"
+        onClicked : {
+            rational.calc(numerator.text, denominator.text, numericSystem.text)
+            var d = rational.digits("fract", 0)
+            circle.stopAnimation()
+            circle.reset()
+            circle.add(d, numericSystem.text, true, true, "black")
+            factionName.text = rational.getFullString()
+        }
+    }
+
     
     Button {
         id: leftButton
         y: 20
-        x: numericSystem.x + numericSystem.width + 10
+        x: calcButton.x + calcButton.width + 10
         text: "<"
         onClicked: {
-         
+            rational.rotatePeriodLeft()
+            var d = rational.digits("fract", 0)
+            circle.stopAnimation()
+            circle.reset()
+            circle.add(d, numericSystem.text, true, true, "black")
+            factionName.text = rational.getFullString()
         }
     }
 
@@ -90,7 +90,12 @@ Item {
         x: leftButton.x + leftButton.width + 10
         text: ">"
         onClicked: {
-         
+            rational.rotatePeriodRight()
+            var d = rational.digits("fract", 0)
+            circle.stopAnimation()
+            circle.reset()
+            circle.add(d, numericSystem.text, true, true, "black")
+            factionName.text = rational.getFullString()
         }
     }
 
@@ -99,11 +104,47 @@ Item {
         y: 20
         x: rightButton.x + rightButton.width + 10
         text: "Reverse"
+
+        onClicked: {
+            rational.inversePeriond()
+            var d = rational.digits("fract", 0)
+            circle.stopAnimation()
+            circle.reset()
+            circle.add(d, numericSystem.text, true, true, "black")
+            factionName.text = rational.getFullString()
+        }
+    }
+
+    Button {
+        id: allRotations
+        text: "All"
+        y: 20
+        x: reverseButton.x + reverseButton.width + 10
+        onClicked: {
+            rational.calc(numerator.text, denominator.text, numericSystem.text)
+            circle.stopAnimation()
+            circle.reset()
+            for (var i = 0; i < parseInt(numericSystem.text); ++i) {
+                var d = rational.digits("fract", 0)
+                circle.add(d, numericSystem.text, true, true, "#00ff00") //Other colors
+                rational.rotatePeriodRight()
+            }
+        }
+    }
+
+    Button {
+        id: playButton
+        y: 20
+        x: allRotations.x + allRotations.width + 10
+        text: "Play"
+        onClicked: {
+            circle.startAnimation()
+        }
     }
 
     Text {
         y: 20
-        x:  reverseButton.x + reverseButton.width + 10
+        x:  playButton.x + playButton.width + 10
         id: factionName
         text : "1/7"
     }
@@ -123,8 +164,7 @@ Item {
     Component.onCompleted : {
         rational.calc(numerator.text, denominator.text, numericSystem.text)
         var d = rational.digits("fract", 0)
-        print(d, "digits")
-        //var oroborus = 
         circle.add(d, numericSystem.text, true, true, "black")
+        factionName.text = rational.getFullString()
     }
 }

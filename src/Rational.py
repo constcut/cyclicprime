@@ -5,6 +5,7 @@ import gmpy2
 
 from PySide2.QtCore import Qt, Slot, Signal, QObject
 from PySide2.QtQml import qmlRegisterType
+from sympy.polys.polytools import div
 
 
 def lcm(x, y):
@@ -28,8 +29,61 @@ class Rational(QObject):
     def __init__(self,parent=None):
         QObject.__init__(self,parent)
         self._den = 1
-        self._num = 1
-        self._scaleOfNotation = 10
+        self._num = 1 
+        self._scaleOfNotation = 10 #rename to numeric system, as everywhere else
+
+    @Slot()
+    def rotatePeriodRight(self):
+        d = self.digits("period")
+        sum = 0
+        divisor = 0
+        for i in range(0, len(d)):
+            divisor *= self._scaleOfNotation
+            singleDigit = d[i] + 1
+            if singleDigit == self._scaleOfNotation:
+                singleDigit = 1
+            sum *= self._scaleOfNotation
+            sum += singleDigit
+            divisor += self._scaleOfNotation - 1
+        self.calc(sum, divisor, self._scaleOfNotation)
+        print("sum = ", sum)
+        print("divisor = ", divisor)
+        print("Result: ", self.getFullString())
+
+    @Slot()
+    def rotatePeriodLeft(self):
+        d = self.digits("period")
+        sum = 0
+        divisor = 0
+        for i in range(0, len(d)):
+            divisor *= self._scaleOfNotation
+            singleDigit = d[i] - 1
+            if singleDigit == -1:
+                singleDigit = self._scaleOfNotation - 2
+            sum *= self._scaleOfNotation
+            sum += singleDigit
+            divisor += self._scaleOfNotation - 1
+        self.calc(sum, divisor, self._scaleOfNotation)
+        print("sum = ", sum)
+        print("divisor = ", divisor)
+        print("Result: ", self.getFullString())
+
+    @Slot()
+    def inversePeriond(self):
+        d = self.digits("period")
+        sum = 0
+        divisor = 0
+        for i in range(len(d) -1, -1, -1):
+            divisor *= self._scaleOfNotation
+            sum *= self._scaleOfNotation
+            sum += d[i]
+            divisor += self._scaleOfNotation - 1
+        self.calc(sum, divisor, self._scaleOfNotation)
+        print("sum = ", sum)
+        print("divisor = ", divisor)
+        print("Result: ", self.getFullString())
+
+
 
     @Slot('int','int','int')
     def calc(self, num = 1, den = 1, base = 10):
@@ -71,7 +125,7 @@ class Rational(QObject):
                 slicerMods = slice(0,self._period + self._startOfPeriod - self._intDigitsCount)
                 self._remains = self._remains[slicerMods]
 
-    def _Rnew(self, num, den, base):
+    def _Rnew(self, num, den, base): #oh review, where is an issue, it used to be faster
         self._num = num
         self._den = den
         self._scaleOfNotation = base
@@ -464,3 +518,4 @@ class Rational(QObject):
         result = (decreasor, geo.getInc())
         return result
 
+#Big class - nice to divide it with operations

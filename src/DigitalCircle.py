@@ -105,16 +105,18 @@ class DigitalCircleList(QQuickPaintedItem):
 
     @Slot()
     def startAnimation(self):
-
         if len(self._circles) == 0:
             return
-
         for c in self._circles:
             if len(c._digitsList) == 0:
                 continue
             c.prepareAnimation()
         self._timer.setInterval(self._timerInterval)
         self._timer.start()
+
+    @Slot()
+    def stopAnimation(self):
+        self._timer.stop()
 
     @Slot()
     def requestSpecialUpdate(self):
