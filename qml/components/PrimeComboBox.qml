@@ -11,6 +11,7 @@ Item {
     ComboBox{
         id: innerCombo
         model: primeModel
+        displayText: innerCombo.currentIndex === -1 ? 'Select prime:' : innerCombo.currentText
     }
     property string text: innerCombo.currentText
 
