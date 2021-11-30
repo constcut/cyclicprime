@@ -411,13 +411,13 @@ class Rational(QObject):
                 for j in range(1, self._den):
                     singleVerTab.append(int(cycleList[j-1].digits()[i+1]))
                 self._vertTables.append(singleVerTab)
-            self._multiplyShiftList = [0]
+            self._multiplyShiftList = [1]
             protoPeriod = cycleList[0].digits(part='period')
             for i in range(2,self._den): 
                 firstPeriodDigit = cycleList[i-1].digits(part='period')[0]
                 for index, digit  in enumerate(protoPeriod):
                     if digit == firstPeriodDigit:
-                        self._multiplyShiftList.append(index)
+                        self._multiplyShiftList.append(index + 1)
             cyclicNumber = int( (self._scaleOfNotation ** self._period) * (1.0 / self._den) )
         return self._isCyclic
 

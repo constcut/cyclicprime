@@ -25,7 +25,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: { 
-        openedTabsList.append({"pageName":".","pageURL":"/pages/pagePrimeScales.qml","ls":"","prevInd":""})
+        //openedTabsList.append({"pageName":".","pageURL":"/pages/pagePrimeScales.qml","ls":"","prevInd":""})
         //openedTabsList.append({"pageName":".","pageURL":"/pages/pageFullReptendPrime.qml","ls":"","prevInd":""})
         //openedTabsList.append({"pageName":".","pageURL":"/pages/manyRationals.qml","ls":"","prevInd":""})
         //openedTabsList.append({"pageName":".","pageURL":"/pages/pageCircles.qml","ls":"","prevInd":""})
@@ -33,6 +33,9 @@ ApplicationWindow {
         //openedTabsList.append({"pageName":".","pageURL":"/components/IntervalScales.qml","ls":"","prevInd":""})
         //openedTabsList.append({"pageName":".","pageURL":"/pages/pagePrimeFactor.qml","ls":"","prevInd":""})
         //openedTabsList.append({"pageName":".","pageURL":"/pages/pageCyclicPrimes.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/pages/pageMusicFromFractions.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/pages/pageFractionRotation.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/pages/pageCircles.qml","ls":"","prevInd":""})
         initPages()
     }
 

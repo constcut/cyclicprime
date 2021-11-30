@@ -33,6 +33,7 @@ Item {
 
     function loadNewUrl(newUrl, jsonObject){
         newUrl.replace("file://","file:///") //dirty hot fix
+        print("load new url", newUrl)
         athenumPage.url =  newUrl
         fileField.text = athenumInfo.cutShortURL(newUrl)
         var moment = Date.now()
