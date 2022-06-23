@@ -98,6 +98,12 @@ In other case generation will be done only for num/denom in certain numeric syst
 
 Arguemnts "local/sum/diff" make different ways to produce midi notes values;
 
+There is a component that allows you to rotate periodic fraction on digit circe, and generate animation from all of possible rotations.
+
+![Roration screenshot](info/screenshots/RotationComponent.gif)
+
+There is a component that helps you to generate animation for all of 1/N .. N-1/N periodic fractions on digit circle. And same component helps to generate 'oroboric' and 'non-oroboric' connections animation.
+
 
 Project was running at Linux/MacOs/Windows - but the very last version tested only on Windows.
 
