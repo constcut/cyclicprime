@@ -35,7 +35,7 @@ Description of pages and components:
 
 - There are many pages that use digital circle component, that helps visualize periodic fractions
 
-![PrimeScales screenshot](info/screenshots/Animations.png)
+![Animations screenshot](info/screenshots/Animations.gif)
 
 - PrimeScales - shows length of periods for 1/P in different Numeric Systems, useful to see many full reptend primes at once, and structure of their appearence
 
