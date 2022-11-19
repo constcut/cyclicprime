@@ -13,6 +13,8 @@ https://habr.com/ru/post/555548/
 
 https://habr.com/ru/post/556564/
 
+https://habr.com/ru/post/672832/
+
 ## History
 
 Started as C++ console apliction, then was built as C++ with Qt GUI, later most of the code was migrated into Python.
@@ -27,7 +29,13 @@ You can edit any page on the go, if MD5 of page becomes different engine would r
 
 There are few prepared pages, first of them opened as default, rest could be opened using button '+'.
 
+
+
 Description of pages and components:
+
+- There are many pages that use digital circle component, that helps visualize periodic fractions
+
+![Animations screenshot](info/screenshots/Animations.gif)
 
 - PrimeScales - shows length of periods for 1/P in different Numeric Systems, useful to see many full reptend primes at once, and structure of their appearence
 
@@ -98,6 +106,13 @@ In other case generation will be done only for num/denom in certain numeric syst
 
 Arguemnts "local/sum/diff" make different ways to produce midi notes values;
 
+There is a component that allows you to rotate periodic fraction on digit circe, and generate animation from all of possible rotations.
+
+![Roration screenshot](info/screenshots/RotationComponent.gif)
+
+There is a component that helps you to generate animation for all of 1/N .. N-1/N periodic fractions on digit circle. And same component helps to generate 'oroboric' and 'non-oroboric' connections animation.
+
+![All and oroboric screenshot](info/screenshots/AllAndOroboric.gif)
 
 Project was running at Linux/MacOs/Windows - but the very last version tested only on Windows.
 
