@@ -32,10 +32,10 @@ Item {
 
     ComboBox{
         id: baseCombo
-        model: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
-        currentIndex: 8
+        model: 99
+        currentIndex: 12
         onCurrentIndexChanged: {
-            pageFullReptendPrime.numericSystem = baseCombo.currentIndex+2
+            pageFullReptendPrime.numericSystem = baseCombo.currentIndex //+2
             loadPrime()
         }
     }
@@ -91,7 +91,7 @@ Item {
         primeCombo.fillPrimes()
         //console.log("FRP: ", prime, numericSystem)
         if (numericSystem >= 2)
-            baseCombo.currentIndex = numericSystem-2
+            baseCombo.currentIndex = numericSystem
         if (prime !== 1){
             loadPrime()
         }
@@ -243,7 +243,7 @@ Item {
             vcirclesFlick.contentWidth = (vTab.length/7.0)* vtableCircles.width
             for (var i = 0; i < vTab.length; ++i){
                     var list = vTab[i]
-                    vtableRep.itemAt(i).set(list,baseCombo.currentIndex+2,true,true)
+                    vtableRep.itemAt(i).set(list,baseCombo.currentIndex,true,true)
                 }
             }
             Flickable {
@@ -350,12 +350,12 @@ Item {
             cycleRep.model = pageFullReptendPrime.prime-1 
             cycleFlick.contentWidth = ((pageFullReptendPrime.prime-1)/7.0)* scalesArea.width
             for (var i = 0; i < pageFullReptendPrime.prime-1; ++i){
-                tempNumber.calc(i+1,pageFullReptendPrime.prime,baseCombo.currentIndex+2)
+                tempNumber.calc(i+1,pageFullReptendPrime.prime,baseCombo.currentIndex)
             var digits = tempNumber.intDigits('fract')
             var oroborus = true
-            if (baseCombo.currentIndex+2 < pageFullReptendPrime.prime)
+            if (baseCombo.currentIndex < pageFullReptendPrime.prime)
                 oroborus = false
-            cycleRep.itemAt(i).set(digits,baseCombo.currentIndex+2,true,oroborus)
+            cycleRep.itemAt(i).set(digits,baseCombo.currentIndex,true,oroborus)
             }
         }
         Flickable { 
