@@ -33,9 +33,9 @@ Item {
     ComboBox{
         id: baseCombo
         model: 99
-        currentIndex: 12
+        currentIndex: 8
         onCurrentIndexChanged: {
-            pageFullReptendPrime.numericSystem = baseCombo.currentIndex //+2
+            pageFullReptendPrime.numericSystem = baseCombo.currentIndex
             loadPrime()
         }
     }
