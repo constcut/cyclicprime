@@ -1,0 +1,20 @@
+
+from Rational import Rational
+from Primes import Primes
+
+primes = Primes()
+r = Rational()
+
+for p in primes.getPrimesList(2, 100): # get primitive roots for X в нашем случае P
+
+    for base in range(2, 100):
+
+        r.calc(1, p, base)
+
+        if (r.getPeriod() == p - 1):
+            d = r.digitSpectrum()
+
+            if (len(d) < 37):
+                print(p, base, d)
+
+print ("Done")
