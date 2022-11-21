@@ -5,16 +5,37 @@ from Primes import Primes
 primes = Primes()
 r = Rational()
 
-for p in primes.getPrimesList(2, 100): # get primitive roots for X в нашем случае P
+for P in primes.getPrimesList(2, 12): # get primitive roots for X в нашем случае P
 
-    for base in range(2, 100):
+    print("P", P)
 
-        r.calc(1, p, base)
+    for base in range(2, P*2 + 1): #TODO function to jump on prime roots + N*P: speedup
 
-        if (r.getPeriod() == p - 1):
+        r.calc(1, P, base)
+        period = r.getPeriod()
+        
+        if (period == P - 1):
+
             d = r.digitSpectrum()
+            pos = 0
 
-            if (len(d) < 37):
-                print(p, base, d)
+            print("period", period)
+            print("Base ", base)
+
+            for L in range(0, P):
+                count = 0
+
+                for i in range(pos, len(d)):
+
+                    pos = i
+                    if d[i] == 0:
+                        count += 1
+                    else:
+                        break
+                
+                pos += 1
+
+                print("L", L, " = ", count)
+
 
 print ("Done")
