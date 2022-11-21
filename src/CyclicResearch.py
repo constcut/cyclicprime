@@ -5,14 +5,14 @@ from Primes import Primes
 primes = Primes()
 r = Rational()
 
-for P in primes.getPrimesList(2, 20): # get primitive roots for X в нашем случае P
+for P in primes.getPrimesList(2, 10): # get primitive roots for X в нашем случае P
 
     print("\n\nP", P)
     p_count = 0
 
     all_same = set() ## Добавлять не то что есть, а то чего нет, и искать пересечение, а потом вычитать обратно
 
-    for base in range(P + 1, P*4 + 1): #TODO function to jump on prime roots + N*P: speedup
+    for base in range(P + 1, P*2 + 1): #TODO function to jump on prime roots + N*P: speedup
 
         r.calc(1, P, base)
         period = r.getPeriod()
@@ -67,6 +67,11 @@ for P in primes.getPrimesList(2, 20): # get primitive roots for X в нашем 
 
             print("L same", L_same)
 
+#TODO 1 Собрать перечень L same (и одновременно для проверки словарь разниц, удостовериться, что там всегда 1)
+
+#Вывести их череду, для каждого простого числа
+
+#Вывести формулу, для пропуска элементов, в зависимости от P и в любой форме записанной системы счисления
 
 #Вывод, формулы можно записать чередующимися, от каждого примитивного корня, у них всегда одинаково будут распределяться отставания
 #В таком случае по всем простым числам надо вывести только каждый цикл, и на каждом цикле нужно вывести свой паттерн LL-L-LL
