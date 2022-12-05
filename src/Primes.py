@@ -2,8 +2,8 @@
 from factordb.factordb import FactorDB
 from math import gcd
 
-from PySide2.QtCore import Qt, Slot, Signal, QObject
-from PySide2.QtQml import qmlRegisterType
+from PySide6.QtCore import Qt, Slot, Signal, QObject
+from PySide6.QtQml import qmlRegisterType
 
 def registerQMLTypes():
     qmlRegisterType(Primes, 'Athenum', 1,0, 'Primes')

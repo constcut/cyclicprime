@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.2
 import Athenum 1.0
 import QtQml 2.12
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs
 
 Item {
     id: autoSumItem
@@ -178,7 +178,7 @@ Item {
         FileDialog {
             id: fileDialog
             title: "Save midi file"
-            folder: shortcuts.desktop
+            //currentFolder: shortcuts.desktop
             onAccepted: {
                 var filename = fileDialog.fileUrls.toString().substr(8)
                 intervalsTable1.model.generateByIntervals(
@@ -186,7 +186,7 @@ Item {
                     tempoValue.text, durationValue.text)
             }
             nameFilters: [ "MIDI files (*.midi *.mid)", "All files (*)" ]
-            selectExisting: false
+            //selectExisting: false
             visible: false
         } 
     }

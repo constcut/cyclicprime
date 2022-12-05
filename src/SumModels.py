@@ -2,9 +2,9 @@ import math
 import gmpy2
 import time
 
-from PySide2.QtCore import  QAbstractTableModel, QAbstractItemModel, QModelIndex, Qt, Slot, Signal, QObject, Slot
-from PySide2.QtQml import qmlRegisterType
-from PySide2.QtGui import QColor, QBrush
+from PySide6.QtCore import  QAbstractTableModel, QAbstractItemModel, QModelIndex, Qt, Slot, Signal, QObject, Slot
+from PySide6.QtQml import qmlRegisterType
+from PySide6.QtGui import QColor, QBrush
 
 from Rational import Rational
 from GeometricProgression import GeometricProgression
