@@ -1,12 +1,12 @@
 text_type = str
 
-from PySide2.QtQuick import QQuickPaintedItem
-from PySide2.QtGui import QPen, QPainter, QColor, QBrush
-from PySide2.QtCore import Property, Signal, Slot, QTimer, Qt, QObject, SIGNAL, SLOT
-from PySide2.QtQml import qmlRegisterType
+from PySide6.QtQuick import QQuickPaintedItem
+from PySide6.QtGui import QPen, QPainter, QColor, QBrush
+from PySide6.QtCore import Property, Signal, Slot, QTimer, Qt, QObject, SIGNAL, SLOT
+from PySide6.QtQml import qmlRegisterType
 from math import sin, cos
 
-from PySide2.QtQml import QJSValue
+from PySide6.QtQml import QJSValue
 
 
 def registerQMLTypes():
@@ -147,7 +147,7 @@ class DigitalCircle(QQuickPaintedItem):
 
     @Slot(result='QString')
     def exportJson(self):
-        from PySide2.QtCore import QJsonDocument, QByteArray, QJsonArray
+        from PySide6.QtCore import QJsonDocument, QByteArray, QJsonArray
         jDoc = QJsonDocument()
         jObj = dict()
         if self._oroborusFlag == False:

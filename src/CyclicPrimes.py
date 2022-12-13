@@ -1,7 +1,7 @@
 from Rational import Rational
 from Primes import Primes
-from PySide2.QtCore import Qt, Slot, Signal, QObject
-from PySide2.QtQml import qmlRegisterType
+from PySide6.QtCore import Qt, Slot, Signal, QObject
+from PySide6.QtQml import qmlRegisterType
 def registerQMLTypes():
     qmlRegisterType(CyclicPrimes, 'Athenum', 1,0, 'CyclicPrimes')
 def getQMLTypes():

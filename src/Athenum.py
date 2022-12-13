@@ -1,8 +1,8 @@
 import sys, os
-from PySide2.QtGui import QGuiApplication
-from PySide2.QtCore import Property, Signal, QUrl, QObject, QDir, Slot, QFile, QIODevice, QCryptographicHash, QByteArray
-from PySide2.QtQml import qmlRegisterType, QQmlContext, QQmlApplicationEngine, QQmlEngine
-from PySide2.QtQuick import QQuickView
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtCore import Property, Signal, QUrl, QObject, QDir, Slot, QFile, QIODevice, QCryptographicHash, QByteArray
+from PySide6.QtQml import qmlRegisterType, QQmlContext, QQmlApplicationEngine, QQmlEngine
+from PySide6.QtQuick import QQuickView
 import importlib
 import platform
 
@@ -148,7 +148,7 @@ class AthenumInfo (QObject):
 
     @Slot(str, result='QVariant')
     def divideJson(self, jsonString):
-        from PySide2.QtCore import QJsonDocument, QByteArray, QJsonArray
+        from PySide6.QtCore import QJsonDocument, QByteArray, QJsonArray
         jBytes = QByteArray(jsonString.encode())
         jDoc = QJsonDocument.fromJson(jBytes)
         jObj = jDoc.array()
@@ -158,10 +158,10 @@ class AthenumInfo (QObject):
         return l2
 
 
-from PySide2.QtCore import QMimeData
-from PySide2.QtGui import QImage
-from PySide2.QtGui import QGuiApplication
-from PySide2.QtGui import QClipboard
+from PySide6.QtCore import QMimeData
+from PySide6.QtGui import QImage
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtGui import QClipboard
 
 class CopyClipboard(QObject):
     def __init__(self, parent=None):

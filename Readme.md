@@ -65,8 +65,10 @@ Clicking on each cell you can find a fraction made from 1/P in certain numeric s
 
 ## Requirements
 
+PySide2 is not possible to deliver for ARM MacOs, so I switched into using PySide6.
+
 ```
-pip install PySide2
+pip install PySide6
 pip install factordb-pycli
 pip install sympy
 pip install gmpy2

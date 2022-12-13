@@ -3,8 +3,8 @@ import math
 from math import gcd
 import gmpy2
 
-from PySide2.QtCore import Qt, Slot, Signal, QObject
-from PySide2.QtQml import qmlRegisterType
+from PySide6.QtCore import Qt, Slot, Signal, QObject
+from PySide6.QtQml import qmlRegisterType
 from sympy.polys.polytools import div
 
 
