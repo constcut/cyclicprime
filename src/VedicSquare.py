@@ -53,7 +53,7 @@ def findRamainder(numericSystem):
 
 
 
-'''
+
 numericSystem = 10 #12 ?7 ? 8
 latinSquare = makeLatinSquare(numericSystem) 
 print()
@@ -61,14 +61,15 @@ print("Latin square")
 for i in range(len(latinSquare)):
     print(latinSquare[i])
 
-print()
-print("Remainder')
-P = 7 #Найти P
-rem = findRamainder(P + 1)
-print(rem)
-print()
-'''
+#print()
+#print('Remainder')
+#P = 7 #Найти P
+#rem = findRamainder(P + 1)
+#rint(rem)
+#print()
 
+
+'''
 from Rational import Rational
 r = Rational()
 r.calc(1, 17, 10)
@@ -82,7 +83,7 @@ for i in range(len(v)):
 
 print()
 print(m)
-
+'''
 
 '''
 r.calc(1, 7, 12)
