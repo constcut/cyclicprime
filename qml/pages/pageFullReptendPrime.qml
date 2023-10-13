@@ -29,6 +29,7 @@ Item {
 
     property int prime: 1
     property int numericSystem: 10
+    property int num: 1
 
     ComboBox{
         id: baseCombo
@@ -41,7 +42,7 @@ Item {
     }
 
     WikiLink{
-        x: primeCombo.x - 100
+        x: primeCombo.x - 200
         link: 'https://en.wikipedia.org/wiki/Full_reptend_prime'
         pageName: 'Full reptend prime'
     }
@@ -87,6 +88,19 @@ Item {
         }
     }
 
+    ComboBox{
+        id: numCombo
+        x: parent.width - width - 10 - primeCombo.width
+        model: 100
+        currentIndex: 1
+       
+        onCurrentIndexChanged: {
+            var num = parseInt(numCombo.currentIndex)
+            pageFullReptendPrime.num = num
+            loadPrime()
+        }
+    }
+
     Component.onCompleted: {
         primeCombo.fillPrimes()
         //console.log("FRP: ", prime, numericSystem)
@@ -102,7 +116,7 @@ Item {
         var base = pageFullReptendPrime.numericSystem
         if (typeof primeNumber !== "number")
             return
-        number.calc(1,primeNumber,base)
+        number.calc(numCombo.currentIndex, primeNumber, base)
         mainText.text = number.getFullString()
         spectrumArea.display()
         regularityArea.display()
@@ -289,7 +303,7 @@ Item {
         function display(){
             var scalesPeriod = number.scalesPeriod()
             scalesText.text = 'Scales period: [' + scalesPeriod.join() +']'
-            /* //TODO load by a timer, takes few seconds
+            //* //TODO load by a timer, takes few seconds
             scalesRep.model = scalesPeriod.length * 3 
             scalesFlick.contentWidth = (scalesPeriod.length*3/7.0)* scalesArea.width
             for (var i = 0; i < scalesPeriod.length*3; ++i){
@@ -299,7 +313,7 @@ Item {
                     scalesRep.itemAt(i).set(digits, i+2, true, false)
                 else
                     scalesRep.itemAt(i).set(digits, i+2, true, true) //oroborus
-            }*/
+            }//*/
         }
         Text{
             id: scalesText
