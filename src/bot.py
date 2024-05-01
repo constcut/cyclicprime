@@ -5,6 +5,7 @@ import json
 from subprocess import check_call
 import threading
 from Rational import Rational
+from DigitalCircle import DigitalCircle, DigitalCircleList
 
 
 class MathBot:
@@ -32,6 +33,9 @@ class MathBot:
             resp = f"{r.getFullString()}\nRemains {r.remains()}\nMultiply shift {r.multiplyShift()}."
             resp += f"\nScales period: {r.scalesPeriod()}\nRegularity: {r.regularity()}\nDigits: {r.digitSpectrum()}"
             self.bot.send_message(message.chat.id, resp, reply_to_message_id=message.id)
+        elif command_steps[0] == "!circle" or command_steps[0] == "!c":
+            circle = DigitalCircle()
+            # TODO
 
     def send_delayed_text(self, message):
         if message.text[0] == "!":
