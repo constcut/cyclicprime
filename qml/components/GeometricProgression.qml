@@ -95,7 +95,7 @@ Item {
     Slider{
         x: 750
         from: 1
-        value: 50 
+        value: 50
         to: 500
         id: geoElements
         y: 5
@@ -123,15 +123,37 @@ Item {
     }
 
 
+    /*Timer {
+        id: recorder_timer
+
+        property int count: 0
+
+        //property Component: source
+
+        interval: 500; running: false; repeat: true
+        onTriggered: {
+            source.grabToImage(function(result) {
+                        recorder_timer.count += 1
+                        var name = "autosum_" + recorder_timer.count + ".png"
+                        result.saveToFile(name);
+                        console.log("Image saved copied " + "autosum_" + recorder_timer.count + ".png")
+                        console.log("b")
+                        });
+        }
+    }*/
+
+
     Button{
         x: 1050
         text: "copy"
         onClicked: {
             visualArea.grabToImage(function(result) {
-                                     //result.saveToFile("autosum.png");
+                                     result.saveToFile("autosum.png");
                                      copyClipboard.copyImageSrc(result.image)
-                                     console.log("Image saved copied")
+                                     console.log("Image saved copied _ ")
                                  });
+            //recorder_timer.source = visualArea
+            //recorder_timer.running = true
         }
     }
 

@@ -8,7 +8,7 @@ import 'components'
 ApplicationWindow {
     id: mainWindow
     visible: true
-    width: 1280 
+    width: 1280
     height: 720
 
     ListModel{
@@ -24,24 +24,24 @@ ApplicationWindow {
         }
     }
 
-    Component.onCompleted: { 
-        //openedTabsList.append({"pageName":".","pageURL":"/pages/pagePrimeScales.qml","ls":"","prevInd":""})
-        //openedTabsList.append({"pageName":".","pageURL":"/pages/pageFullReptendPrime.qml","ls":"","prevInd":""})
-        //openedTabsList.append({"pageName":".","pageURL":"/pages/manyRationals.qml","ls":"","prevInd":""})
-        //openedTabsList.append({"pageName":".","pageURL":"/pages/pageCircles.qml","ls":"","prevInd":""})
-        //openedTabsList.append({"pageName":".","pageURL":"/components/GeometricProgression.qml","ls":"","prevInd":""}) 
-        //openedTabsList.append({"pageName":".","pageURL":"/components/IntervalScales.qml","ls":"","prevInd":""})
-        //openedTabsList.append({"pageName":".","pageURL":"/pages/pagePrimeFactor.qml","ls":"","prevInd":""})
-        //openedTabsList.append({"pageName":".","pageURL":"/pages/pageCyclicPrimes.qml","ls":"","prevInd":""})
+    Component.onCompleted: {
+        openedTabsList.append({"pageName":".","pageURL":"/pages/pageFullReptendPrime.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/pages/manyRationals.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/pages/pageCircles.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/components/GeometricProgression.qml","ls":"","prevInd":""})
+        // openedTabsList.append({"pageName":".","pageURL":"/components/IntervalScales.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/pages/pagePrimeFactor.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/pages/pageCyclicPrimes.qml","ls":"","prevInd":""})
         openedTabsList.append({"pageName":".","pageURL":"/pages/pageMusicFromFractions.qml","ls":"","prevInd":""})
         openedTabsList.append({"pageName":".","pageURL":"/pages/pageFractionRotation.qml","ls":"","prevInd":""})
         openedTabsList.append({"pageName":".","pageURL":"/pages/pageCircles.qml","ls":"","prevInd":""})
+        openedTabsList.append({"pageName":".","pageURL":"/pages/pagePrimeScales.qml","ls":"","prevInd":""})
         initPages()
     }
 
     Popup{
         id: newWindowPopup
-        ComboBox{ 
+        ComboBox{
             id:newWindowName
             width: 490
             model: ["failed","to load","qml","files"]
@@ -132,11 +132,11 @@ ApplicationWindow {
 
     Button {
         id: reloadButton
-        
-        text: ":" 
+
+        text: ":"
         width: 25
         x: 0
-        onClicked: { 
+        onClicked: {
             var url = mainRepeater.itemAt(tabBar.currentIndex).url
             mainRepeater.itemAt(tabBar.currentIndex).loadNewUrl(url)
         }
@@ -175,7 +175,7 @@ ApplicationWindow {
                     tabsRepeater.model = openedTabsList.count
                 }
             }
-        } 
+        }
     }
 
     function loadNewPage(pageName){
@@ -185,14 +185,14 @@ ApplicationWindow {
             if (newWindowName.model[i] === pageName) {
                 pageUrl = list[i]
             }
-        openedTabsList.append({"pageName":"New page","pageURL":pageUrl,"ls":"","prevInd":""}) 
+        openedTabsList.append({"pageName":"New page","pageURL":pageUrl,"ls":"","prevInd":""})
         tabsRepeater.model = openedTabsList.count
         tabBar.currentIndex = tabsRepeater.model-1
         initPages()
     }
 
     function loadNewUrl(pageUrl){
-        openedTabsList.append({"pageName":"New page","pageURL":pageUrl,"ls":"","prevInd":""}) 
+        openedTabsList.append({"pageName":"New page","pageURL":pageUrl,"ls":"","prevInd":""})
         tabsRepeater.model = openedTabsList.count
         tabBar.currentIndex = tabsRepeater.model-1
         initPages()
@@ -203,7 +203,7 @@ ApplicationWindow {
         if (jStr.length > 0)
             jsonOb = JSON.parse(jStr);
 
-        openedTabsList.append({"pageName":"New page","pageURL":pageUrl,"ls":"","prevInd":"","jObj":jsonOb}) 
+        openedTabsList.append({"pageName":"New page","pageURL":pageUrl,"ls":"","prevInd":"","jObj":jsonOb})
         tabsRepeater.model = openedTabsList.count
         tabBar.currentIndex = tabsRepeater.model-1
         initPages()
@@ -224,7 +224,7 @@ ApplicationWindow {
             var emptyJson = openedTabsList.get(i).jObj
             mainRepeater.itemAt(i).loadNewUrl(pageURL, emptyJson)
             openedTabsList.get(i).ls = "loaded";
-            openedTabsList.get(i).prevInd = i 
+            openedTabsList.get(i).prevInd = i
         }
         tabBar.currentIndex = openedTabsList.count - 1
     }

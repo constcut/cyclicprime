@@ -29,7 +29,7 @@ Item {
     }
 
     Button {
-       x: parent.width - width - 10 
+       x: parent.width - width - 10
        y: 5
        text: "Export / import"
        onClicked: {
@@ -92,7 +92,7 @@ Item {
         text: "7"
         ToolTip {
             parent: denominator.handles
-            visible: denominator.hovered 
+            visible: denominator.hovered
             text: 'Denominator: ' + denominator.text
         }
     }
@@ -107,7 +107,7 @@ Item {
 
         ToolTip {
             parent: numericSystem.handles
-            visible: numericSystem.hovered 
+            visible: numericSystem.hovered
             text: 'Numeric system: ' + numericSystem.text
         }
     }
@@ -127,7 +127,7 @@ Item {
             for (var i = 1; i < parseInt(denominator.text); ++i) {
                 rational.calc(i, denominator.text, numericSystem.text)
                 var d = rational.digits("fract", 0)
-                circleRepeater.itemAt(pageCircles.circlesCount).add(d, numericSystem.text, true, true, "#00ff00")  
+                circleRepeater.itemAt(pageCircles.circlesCount).add(d, numericSystem.text, true, true, "#00ff00")
             }
             pageCircles.circlesCount += 1
         }
@@ -156,7 +156,7 @@ Item {
                     rational.calc(1, prime, i + prime)
                     var d2 = rational.digits("fract", 0)
                     circleRepeater.itemAt(pageCircles.circlesCount).add(d2, i + prime, true, true, "#00ff00")
-                    circleRepeater.itemAt(pageCircles.circlesCount).add(d, i, true, false, "#00ff00") 
+                    circleRepeater.itemAt(pageCircles.circlesCount).add(d, i, true, false, "#00ff00")
                     pageCircles.circlesCount += 1
                 }
             }
@@ -210,7 +210,7 @@ Item {
         id: repeatersGrid
         x: 10; y: 50
         rows: 10
-        columns: pageCircles.width / ( pageCircles.circleRadius + 10) 
+        columns: pageCircles.width / ( pageCircles.circleRadius + 10)
         spacing: 10
 
         width: parent.width
@@ -242,6 +242,20 @@ Item {
                 digitsCircle.setRadius()
             }
 
+            /*Timer {
+                id: recorder_timer
+                property int count: 0
+                //property Component: source
+                interval: 50; running: false; repeat: true
+                onTriggered: {
+                    digitsCircle.grabToImage(function(result) {
+                            recorder_timer.count += 1
+                            var name = "circle_" + recorder_timer.count + ".png"
+                            result.saveToFile(name);
+                    });
+                }
+            }*/
+
             DigitalCircleList{
                 id: digitsCircle
                 anchors.horizontalCenter: parent !== null ? parent.horizontalCenter : null
@@ -254,6 +268,7 @@ Item {
                     anchors.fill: parent
                     onDoubleClicked: {
                       digitsCircle.startAnimation()
+                      //recorder_timer.running = true
                     }
                 }
             }

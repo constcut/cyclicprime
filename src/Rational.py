@@ -9,7 +9,8 @@ from sympy.polys.polytools import div
 
 
 def lcm(x, y):
-    return x * y // gcd(x, y) 
+    return x * y // gcd(x, y)
+
 
 def reduceFraction(num, den):
     common_divisor = gcd(num, den)
@@ -24,12 +25,12 @@ def getQMLTypes():
     theTypes = ['Rational']
     return theTypes
 
-
+# TODO replace with simple algorithm, that calculates period, and then gets cyclic integer directly
 class Rational(QObject):
     def __init__(self,parent=None):
         QObject.__init__(self,parent)
         self._den = 1
-        self._num = 1 
+        self._num = 1
         self._scaleOfNotation = 10 #rename to numeric system, as everywhere else
 
     @Slot()
@@ -100,22 +101,22 @@ class Rational(QObject):
 
     def _flush(self):
         self._dotPosition = -1
-        self._startOfPeriod = 0 
-        self._intDigitsCount = 1 
+        self._startOfPeriod = 0
+        self._intDigitsCount = 1
         self._period = -1
-        self._isCyclic = False 
+        self._isCyclic = False
 
-    def _Rold(self, num, den, base): 
+    def _Rold(self, num, den, base):
         self._num = num
         self._den = den
         self._scaleOfNotation = base
-        if (den % base) == 0: 
+        if (den % base) == 0:
             self._digitsLimit = len(str(gmpy2.mpz(den)))
             self._digits, self._remains = self.calculateDigits(num,den,base)
             self._period = 0
         else:
             self._num, self._den =  reduceFraction(num,den)
-            self._digitsLimit = den * 11 
+            self._digitsLimit = den * 11
             self._digits, self._remains = self.calculateDigits(num,den,base)
             self._period = self.establishPeriod(self._digits)
             if self._period != 0:
@@ -139,7 +140,7 @@ class Rational(QObject):
         self._digitsLimit = self._period + 1
         self._digits, self._remains = self.calculateDigits(num,den,base)
         self._startOfPeriod = 1
-           
+
 
     @Slot('QVariant','QVariant',result='QVariant')
     def findPeriodStart(self, digits, period):
@@ -155,7 +156,7 @@ class Rational(QObject):
         return None
 
     @Slot('QVariant','QVariant','QVariant')
-    def fillDigitsByInteger(self, number, base, digitsList): 
+    def fillDigitsByInteger(self, number, base, digitsList):
         self._intDigitsCount = 0
         if number < base:
             digitsList.insert(0,number)
@@ -198,9 +199,9 @@ class Rational(QObject):
                     self._dotPosition = len(digits)-1
             if num == 0:
                 break
-            if len(digits) % 1000 == 0: 
+            if len(digits) % 1000 == 0:
                 checkPeriod = self.establishPeriod(digits)
-                if checkPeriod > 0: 
+                if checkPeriod > 0:
                     return digits, mods
         return digits, mods
 
@@ -208,12 +209,12 @@ class Rational(QObject):
     @Slot('QVariant',result='QVariant')
     def establishPeriod(self, digits):
         digitsLen = len(digits)
-        for period in range(1,self._den): 
+        for period in range(1, self._den):
             firstSlice = slice(digitsLen - 1 - period, digitsLen-1)
             firstPeriod = digits[firstSlice]
             fineRepeatedPeriods = 0
-            insureAmount = 10 
-            for insureRepeats in range(1,insureAmount): 
+            insureAmount = 10
+            for insureRepeats in range(1, insureAmount):
                 anotherSlice = slice(digitsLen -1 -period * insureRepeats -period, digitsLen - 1 - period * insureRepeats)
                 anotherPeriod = digits[anotherSlice]
                 if firstPeriod == anotherPeriod:
@@ -253,7 +254,7 @@ class Rational(QObject):
                 if digit <= 9:
                     fullString += str(digit)
                 else:
-                    fullString += chr(digit-10 + 65) 
+                    fullString += chr(digit - 10 + 65)
             if self._startOfPeriod != 0:
                 fullString += ')'
             return fullString
@@ -271,7 +272,7 @@ class Rational(QObject):
         elif part == 'int': endRange = self._intDigitsCount
         elif part == 'fract': beginRange = self._intDigitsCount
         slicer = slice(beginRange,endRange)
-        resultList = self._digits[slicer] 
+        resultList = self._digits[slicer]
         if self._period == 0:
             return resultList
         if extendByPeriod != 0:
@@ -323,13 +324,13 @@ class Rational(QObject):
         return len(self._digits) - self._intDigitsCount
 
     @Slot('int',result='QVariant')
-    def changeScaleOfNotation(self,base=10): 
+    def changeScaleOfNotation(self, base=10):
         r = Rational()
         r.calc(self._num, self._den, base)
         return r
 
     @Slot('QVariant',result='QVariant')
-    def digitSpectrum(self, part='fract'): 
+    def digitSpectrum(self, part="fract"):
         spectrum = [0]*self._scaleOfNotation
         digits = self.digits(part)
         for digit in digits:
@@ -345,9 +346,9 @@ class Rational(QObject):
         return resultString
 
     @Slot('QVariant',result='QVariant')
-    def regularity(self, part='all'): 
+    def regularity(self, part="all"):
         regs = []
-        extension = 1 
+        extension = 1
         if self._period == 0 or part == 'int':
             extesion = 0
         digits = self.digits(part,extension)
@@ -360,7 +361,7 @@ class Rational(QObject):
         return intRegs
 
     @Slot(result='QVariant')
-    def remains(self): 
+    def remains(self):
         intRemains = []
         for rem in self._remains:
             intRemains.append(int(rem))
@@ -384,7 +385,7 @@ class Rational(QObject):
     def isCyclic(self):
         import importlib
         sympyLib = importlib.find_loader('sympy')
-        if sympyLib is not None: 
+        if sympyLib is not None:
             from sympy.ntheory import primefactors
             primesList = primefactors(self._den)
         else:
@@ -394,7 +395,7 @@ class Rational(QObject):
             primesList = f.get_factor_list()
         isDenPrime = len(primesList) == 1
         self._isCyclic = False
-        if isDenPrime and self._num < self._den and self._period != 0: 
+        if isDenPrime and self._num < self._den and self._period != 0:
             self._isCyclic = True
             cycleList = []
             spectrumsSet = set()
@@ -411,13 +412,13 @@ class Rational(QObject):
                 for j in range(1, self._den):
                     singleVerTab.append(int(cycleList[j-1].digits()[i+1]))
                 self._vertTables.append(singleVerTab)
-            self._multiplyShiftList = [1]
+            self._multiplyShiftList = [0]
             protoPeriod = cycleList[0].digits(part='period')
-            for i in range(2,self._den): 
+            for i in range(2, self._den):
                 firstPeriodDigit = cycleList[i-1].digits(part='period')[0]
                 for index, digit  in enumerate(protoPeriod):
                     if digit == firstPeriodDigit:
-                        self._multiplyShiftList.append(index + 1)
+                        self._multiplyShiftList.append(index)
             cyclicNumber = int( (self._scaleOfNotation ** self._period) * (1.0 / self._den) )
         return self._isCyclic
 
@@ -445,11 +446,11 @@ class Rational(QObject):
     @Slot(result='QVariant')
     def cyclicPairNumber(self):
         if self._isCyclic:
-            repunitString = '9'*self._period 
+            repunitString = "9" * self._period
             periodBorder = gmpy2.mpz(repunitString)
             import importlib
             sympyLib = importlib.find_loader('sympy')
-            if sympyLib is not None: 
+            if sympyLib is not None:
                 from sympy.ntheory import primefactors
                 primes = primefactors(periodBorder)
             else:
@@ -482,12 +483,12 @@ class Rational(QObject):
 
     @Slot('int','QVariant',result='QVariant')
     def findGeomProgress(self, decreaseCoef=100, epsCoef=0.000001):
-        if self._isCyclic:  
+        if self._isCyclic:
             origin = Rational()
             origin.calc(1, self._den, self._scaleOfNotation)
-            l = round(math.log(decreaseCoef,self._scaleOfNotation)) 
+            l = round(math.log(decreaseCoef, self._scaleOfNotation))
             multiplyBy = origin.remains()[l % len(self._remains)]
-            f = origin.intFromFract(l) 
+            f = origin.intFromFract(l)
             while f == 0:
                 l += 1
                 f = origin.intFromFract(l)
@@ -496,7 +497,7 @@ class Rational(QObject):
             g = GeometricProgression()
             g.set(f*self._num, multiplyBy,decreaseCoef)
             return g
-        epsCoef = 1.0 / (self._scaleOfNotation ** self._period) 
+        epsCoef = 1.0 / (self._scaleOfNotation**self._period)
         firstStepLength = math.log(decreaseCoef, self._scaleOfNotation)
         firstStep = int( (self._scaleOfNotation ** firstStepLength) * (1.0 / self._den) )
         equalent = self._num / self._den

@@ -54,7 +54,7 @@ class DigitalCircleList(QQuickPaintedItem):
         if "label" in j:
             self._label = str(j["label"])
         if "circles" in j:
-            circles = j["circles"] 
+            circles = j["circles"]
             for c in circles:
                 print(str(c).replace("'","\""), " - circle import")
                 newC = DigitalCircle()
@@ -96,6 +96,7 @@ class DigitalCircleList(QQuickPaintedItem):
         for c in self._circles:
             c.paintWithoutNotation(painter)
         self._circles[0].drawNotation(painter)
+        # save_frame and ts and image
 
     @Slot(float)
     def setSpeedRatio(self, newRate):
@@ -128,22 +129,23 @@ class DigitalCircleList(QQuickPaintedItem):
 class DigitalCircle(QQuickPaintedItem):
     def __init__(self,parent=None):
         QQuickPaintedItem.__init__(self,parent)
-        self._oroborusFlag = True 
+        self._oroborusFlag = True
         self._cycleFlag = True
         self._radius = 100
         self._borderOffset = 15
         self._digitsList = []
-        self._scale = 0 
+        self._scale = 0
         self._posX = 0
         self._posY = 0
         self._speedRatio = 1.0
         self._timerInterval = 25 * self._speedRatio
         self._animationIndex = 0
-        self._timer = QTimer() 
+        self._timer = QTimer()
         QObject.connect(self._timer, SIGNAL('timeout()'), self, SLOT('requestSpecialUpdate()'))
         self._dotColor = QColor(Qt.green)
         self._lineWidth = 1
         self._lineColor = QColor(Qt.black)
+        self.started = False
 
     @Slot(result='QString')
     def exportJson(self):
@@ -267,7 +269,13 @@ class DigitalCircle(QQuickPaintedItem):
             lastDigit = self._digitsList[-1]
             self.drawLine(painter, lastDigit, firstDigit)
         painter.setBrush(self._dotColor)
-        painter.drawEllipse(self._radius - self._posX + self._borderOffset - 10/2, self._radius - self._posY + self._borderOffset - 10/2, 10, 10)
+        if self.started:
+            painter.drawEllipse(
+                self._radius - self._posX + self._borderOffset - 10 / 2,
+                self._radius - self._posY + self._borderOffset - 10 / 2,
+                10,
+                10,
+            )
         painter.setBrush(brushBackup)
         painter.setPen(penBackup)
 
@@ -282,7 +290,7 @@ class DigitalCircle(QQuickPaintedItem):
         degree2 = (scale - end) * 360.0 / scale
         y2 = radius * cos(degree2 * 3.14159265 / 180.0)
         x2 = radius * sin(degree2 * 3.14159265 / 180.0)
-        radius += self._borderOffset 
+        radius += self._borderOffset
         painter.drawLine(radius-x1, radius-y1, radius-x2, radius-y2)
 
 
@@ -345,7 +353,7 @@ class DigitalCircle(QQuickPaintedItem):
             digitsPositions.append(anotherPosition)
         traces = []
         for i in range(0, len(digitsPositions)-1):
-            x1 = digitsPositions[i][0] 
+            x1 = digitsPositions[i][0]
             y1 = digitsPositions[i][1]
             x2 = digitsPositions[i+1][0]
             y2 = digitsPositions[i+1][1]
@@ -364,9 +372,9 @@ class DigitalCircle(QQuickPaintedItem):
         if len(self._digitsList) == 0:
             return
         self.prepareAnimation()
-        self._timer.setInterval(self._timerInterval) 
+        self._timer.setInterval(self._timerInterval)
+        self.started = True
         self._timer.start()
-
 
     @Slot()
     def requestSpecialUpdate(self):
@@ -417,5 +425,3 @@ class DigitalCircle(QQuickPaintedItem):
 
     radius = Property(int, getRadius, setRadius)
     borderOffset = Property(int, getBorderOffset, setBorderOffset)
-
-
