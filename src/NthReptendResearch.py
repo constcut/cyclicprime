@@ -63,14 +63,14 @@ def findPattern3rd(prime): #TODO построить dict [n] -> digitalSpectrum 
                 else:
                     if ds1 == None:
                         ds1 = ds
-                    
+
                     if ds == ds1:
                         sequence.append(2)
                     else:
                         sequence.append(3)
             print(sequence, "for ns=", ns + P * mult)
             #return sequence #escape all the fun :)
-    
 
-#findPattern(23)
-findPattern3rd(37)
+
+findPattern(13)
+# findPattern3rd(37)

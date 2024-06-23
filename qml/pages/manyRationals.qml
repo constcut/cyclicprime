@@ -19,7 +19,7 @@ Item {
             var oro = numericSystem > (prime + 1)
             selectComboBox.reset()
               for (var i = 1; i < prime; ++i)
-                    addPrimeToCircle(i,prime,numericSystem,oro,2)      
+                    addPrimeToCircle(i,prime,numericSystem,oro,2)
         }
     }
     Component.onDestruction : {
@@ -35,48 +35,64 @@ Item {
         id: circle
         x: 100
         y: 100
-        width: 300
-        height: 300
+        width: 240
+        height: 240
     }
 
     DigitalCircleList{
         id: circle2
-        x: 100 + 350
+        x: 100 + 250
         y: 100
-        width: 300
-        height: 300
+        width: 240
+        height: 240
     }
 
     DigitalCircleList{
         id: circle3
-        x: 100 + 700
+        x: 100 + 500
         y: 100
-        width: 300
-        height: 300
+        width: 240
+        height: 240
     }
 
     DigitalCircleList {
         id: circle4
-        x: 100
-        y: 100 + 350
-        width: 300
-        height: 300
+        x: 100 + 750
+        y: 100
+        width: 240
+        height: 240
     }
 
     DigitalCircleList {
         id: circle5
-        x: 100 + 350
-        y: 100 + 350
-        width: 300
-        height: 300
+        x: 100
+        y: 100 + 250
+        width: 240
+        height: 240
     }
 
     DigitalCircleList {
         id: circle6
-        x: 100 + 700
-        y: 100 + 350
-        width: 300
-        height: 300
+        x: 100 + 250
+        y: 100 + 250
+        width: 240
+        height: 240
+    }
+
+    DigitalCircleList {
+        id: circle7
+        x: 100 + 500
+        y: 100 + 250
+        width: 240
+        height: 240
+    }
+
+    DigitalCircleList {
+        id: circle8
+        x: 100 + 750
+        y: 100 + 250
+        width: 240
+        height: 240
     }
 
 
@@ -86,7 +102,7 @@ Item {
 
 
     ComboBox {
-        
+
         id: selectComboBox
 
         y: 5
@@ -104,12 +120,16 @@ Item {
             circle4.stopAnimation()
             circle5.stopAnimation()
             circle6.stopAnimation()
+            circle7.stopAnimation()
+            circle8.stopAnimation()
             circle.reset()
             circle2.reset()
             circle3.reset()
             circle4.reset()
             circle5.reset()
             circle6.reset()
+            circle7.reset()
+            circle8.reset()
         }
 
         onActivated: {
@@ -117,60 +137,46 @@ Item {
 
             //#TODO перести в cicles page, и там позволять операции реверсирования
             if (index == 0) {
-                scale = 10
-                addPrimeToCircleColored(1,7,scale,true,1, "#ff0000")
-                addPrimeToCircleColored(2,7,scale,true,1, "#ff8000")
-                addPrimeToCircleColored(3,7,scale,true,1, "#808000")
-                addPrimeToCircleColored(4,7,scale,true,1, "#00ff00")
-                addPrimeToCircleColored(5,7,scale,true,1, "#00ff80")
-                addPrimeToCircleColored(6,7,scale,true,1, "#0000ff")
-                var scale = 10
-                addPrimeToCircle(1,7,scale,true,2)
-                addPrimeToCircle(2,7,scale,true,2)
-                addPrimeToCircle(3,7,scale,true,2)
-                addPrimeToCircle(4,7,scale,true,2)
-                addPrimeToCircle(5,7,scale,true,2)
-                addPrimeToCircle(6,7,scale,true,2)
-                scale = 3
-                addPrimeToCircle(1,7,scale,false,3)
-                addPrimeToCircle(2,7,scale,false,3)
-                addPrimeToCircle(3,7,scale,false,3)
-                addPrimeToCircle(4,7,scale,false,3)
-                addPrimeToCircle(5,7,scale,false,3)
-                addPrimeToCircle(6,7,scale,false,3)
-
-
-                addPrimeToCircle(1,7,2,false,4)
-                addPrimeToCircle(1,7,9,true,4)
-                //addPrimeToCircle(1,7,3,false,2)
-                //addPrimeToCircle(1,7,10,true,2)
-                //addPrimeToCircle(1,7,4,false,3)
-                //addPrimeToCircle(1,7,11,true,3)
-                addPrimeToCircle(1,7,5,false,5)
-                addPrimeToCircle(1,7,12,true,5)
-                //addPrimeToCircle(1,7,6,false,5)
-                //addPrimeToCircle(1,7,13,true,5)
-                addPrimeToCircle(1,7,10,true,6)
-                addPrimeToCircle(1,7,17,true,6)
+                addPrimeToCircleColored(1, 3, 5,true, 1, "#ff0000")
+                addPrimeToCircleColored(1, 5, 7,true, 2, "#ff0000")
+                addPrimeToCircleColored(1, 7, 10,true, 3, "#ff0000")
+                addPrimeToCircleColored(1, 11, 13,true, 4, "#ff0000")
+                addPrimeToCircleColored(1, 13, 15,true, 5, "#ff0000")
+                addPrimeToCircleColored(1, 17, 20,true, 6, "#ff0000")
+                addPrimeToCircleColored(1, 19, 21,true, 7, "#ff0000")
+                addPrimeToCircleColored(1, 23, 28,true, 8, "#ff0000")
             }
             else if (index == 1) {
-                for (var i = 1; i < 49; ++i)
-                    addPrimeToCircle(i,49,10,true,2)        
+                addPrimeToCircleColored(1, 3, 5,true, 1, "#ff0000")
+                addPrimeToCircleColored(1, 5, 7,true, 2, "#ff0000")
+                addPrimeToCircleColored(1, 7, 10,true, 3, "#ff0000")
+                addPrimeToCircleColored(1, 11, 13,true, 4, "#ff0000")
+                addPrimeToCircleColored(1, 13, 15,true, 5, "#ff0000")
+                addPrimeToCircleColored(1, 17, 20,true, 6, "#ff0000")
+                addPrimeToCircleColored(1, 19, 21,true, 7, "#ff0000")
+                addPrimeToCircleColored(1, 23, 28,true, 8, "#ff0000")
+
+                addPrimeToCircleColored(1, 3, 2,false, 1, "#ff0000")
+                addPrimeToCircleColored(1, 5, 2,false, 2, "#ff0000")
+                addPrimeToCircleColored(1, 7, 3,false, 3, "#ff0000")
+                addPrimeToCircleColored(1, 11, 13 - 11,false, 4, "#ff0000")
+                addPrimeToCircleColored(1, 13, 15 - 13,false, 5, "#ff0000")
+                addPrimeToCircleColored(1, 17, 20 - 17,false, 6, "#ff0000")
+                addPrimeToCircleColored(1, 19, 21 - 19,false, 7, "#ff0000")
+                addPrimeToCircleColored(1, 23, 28 - 23,false, 8, "#ff0000")
             }
             else if (index == 2) {
-                for (i = 1; i < 91; ++i)
-                    addPrimeToCircle(i,91,10,true,2)
+                    circle.add([1,2,4,5,7,8], 10, true, true, "#ff0000")
+                    circle2.add([4,8,2,7,1,5], 10, true, true, "#ff0000")
+                    circle3.add([2,5,8,1,4,7], 10, true, true, "#ff0000")
             }
             else if (index == 3) {
-                var searchOne = 13
-                for (var i = 1; i < 13; ++i)
-                    addPrimeToCircle(i,searchOne,10,true,3)
+            circle.add([1, 3, 2, 6, 4, 5], 7, true, false, "#ff0000")
+            circle2.add([0, 2, 1, 4, 5, 3], 6, true, false, "#ff0000")
 
-                addPrimeToCircle(1,searchOne,10,true,1)
-                addPrimeToCircle(2,searchOne,10,true,2)
+            addPrimeToCircleColored(1, 7, 10,true, 3, "#ff0000")
+            addPrimeToCircleColored(1, 7, 12,true, 4, "#ff0000")
 
-                addPrimeToCircle(1,searchOne,10,true,5)
-                addPrimeToCircle(2,searchOne,10,true,5)
             }
             else if (index == 4) {
                 scale = 7
@@ -223,7 +229,7 @@ Item {
                 addPrimeToCircle(1,3,17,true,6)
                 addPrimeToCircle(1,3,20,true,6)
                 addPrimeToCircle(1,3,23,true,6)
-                addPrimeToCircle(1,3,26,true,6)    
+                addPrimeToCircle(1,3,26,true,6)
             }
             else if (index == 6) {
                 addPrimeToCircle(1,3,2,false,1)
@@ -237,7 +243,7 @@ Item {
                 addPrimeToCircle(1,13,2,false,5)
                 addPrimeToCircle(1,13,15,true,5)
                 addPrimeToCircle(1,17,2,false,6)
-                addPrimeToCircle(1,17,19,true,6)  
+                addPrimeToCircle(1,17,19,true,6)
             }
             else if (index == 7) {
                 addPrimeToCircle(1,5,2,false,1)
@@ -251,7 +257,7 @@ Item {
                 addPrimeToCircle(1,17,3,false,5)
                 addPrimeToCircle(1,17,20,true,5)
                 addPrimeToCircle(1,19,2,false,6)
-                addPrimeToCircle(1,19,21,true,6)   
+                addPrimeToCircle(1,19,21,true,6)
             }
             else if (index == 8) {
                 addPrimeToCircle(1,11,2,false,1)
@@ -265,7 +271,7 @@ Item {
                 addPrimeToCircle(1,11,6,false,5)
                 addPrimeToCircle(1,11,17,true,5)
                 addPrimeToCircle(1,11,7,false,6)
-                addPrimeToCircle(1,11,18,true,6)    
+                addPrimeToCircle(1,11,18,true,6)
             }
             else if (index == 9) {
                 addPrimeToCircle(1,13,2,false,1)
@@ -292,31 +298,31 @@ Item {
                 circle2.add([2, 4, 6, 8, 1, 3, 5, 7, 9], 10, true, oro, colorValue) //2 and rev 7
                 circle3.add([3, 6, 9, 3, 6, 9, 3, 6, 9], 10, true, oro, colorValue) //3 and rev 6
                 circle5.add([4, 8, 3, 7, 2, 6, 1, 5, 9], 10, true, oro, colorValue) //4 and rev 5
-                circle6.add([2, 4, 8, 7, 5, 1], 10, true, true, colorValue) 
-            }    
+                circle6.add([2, 4, 8, 7, 5, 1], 10, true, true, colorValue)
+            }
             else if (index == 12) {
                 var colorValue = "#00ff00"
                 var oro = true
-                circle.add([2, 4, 6, 8, 2, 4, 6], 9, true, oro, colorValue) 
-                circle2.add([3, 6, 1, 4, 7, 2, 5], 9, true, oro, colorValue) 
-                circle4.add([2, 4, 6, 1, 3, 5], 8, true, oro, colorValue) 
-                circle5.add([3, 6, 2, 5, 1, 4], 8, true, oro, colorValue) 
-                circle6.add([3, 2, 6, 4, 5, 1], 8, true, oro, colorValue) 
-            }    
+                circle.add([2, 4, 6, 8, 2, 4, 6], 9, true, oro, colorValue)
+                circle2.add([3, 6, 1, 4, 7, 2, 5], 9, true, oro, colorValue)
+                circle4.add([2, 4, 6, 1, 3, 5], 8, true, oro, colorValue)
+                circle5.add([3, 6, 2, 5, 1, 4], 8, true, oro, colorValue)
+                circle6.add([3, 2, 6, 4, 5, 1], 8, true, oro, colorValue)
+            }
             else if (index == 13) {
                 addPrimeToCircle(1,7,12,true,2)
                 addPrimeToCircle(18,77,12,true,2)
                 addPrimeToCircle(967891, 2985983, 12,true,2)
                 addPrimeToCircle(1239344, 2985983, 12,true,2)
                 addPrimeToCircle(183243, 426569, 12,true,2)
-                addPrimeToCircle(222022, 426569, 12,true,2)
+                addPrimeToCircle(224022, 426569, 12,true,2)
                 addPrimeToCircle(11507, 19019, 12,true,2)
                 addPrimeToCircle(296863, 426569, 12,true,2)
                 addPrimeToCircle(335642, 426569, 12,true,2)
                 addPrimeToCircle(2620815, 2985983, 12,true,2)
                 addPrimeToCircle(2892268, 2985983, 12,true,2)
 
-            } 
+            }
             else if (index == 14) {
                 addPrimeToCircle(1,7,10,true,2)
                 addPrimeToCircle(16,63,10,true,2)
@@ -352,9 +358,9 @@ Item {
                 addPrimeToCircle(185514302, 191102975, 24,true,4)
                 addPrimeToCircle(9, 161, 24,true,4)
                 addPrimeToCircle(16, 161, 24,true,4)
-            } 
+            }
 
-            
+
             /* //CASE FOR OPTIMIZATION - this one runs too slow
             for (var i = 1; i < 13*13; ++i)
             addPrimeToCircle(i,13*13,10,true,5)*/
@@ -404,6 +410,10 @@ Item {
             circle5.add(digits,scale, true, oro, colorValue)
         else if (circleNum === 6)
             circle6.add(digits,scale, true, oro, colorValue)
+        else if (circleNum === 7)
+            circle7.add(digits,scale, true, oro, colorValue)
+        else if (circleNum === 8)
+            circle8.add(digits,scale, true, oro, colorValue)
     }
 
     function addPrimeToCircleColored(num, den, scale, oro, circleNum, colorValue) {
@@ -422,6 +432,10 @@ Item {
             circle5.add(digits,scale, true, oro, colorValue)
         else if (circleNum === 6)
             circle6.add(digits,scale, true, oro, colorValue)
+        else if (circleNum === 7)
+            circle7.add(digits,scale, true, oro, colorValue)
+        else if (circleNum === 8)
+            circle8.add(digits,scale, true, oro, colorValue)
     }
 
     Button{

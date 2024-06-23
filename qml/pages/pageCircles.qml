@@ -49,7 +49,7 @@ Item {
         id: circlesSlider
         from: 1
         to: 255
-        value: 20
+        value: 91
         stepSize: 1
         y: 5
         x: 5
@@ -68,12 +68,16 @@ Item {
         id: radiusSlider
         from: 10
         to: 400
-        value: 240
+        value: 140
         stepSize: 1
         y: 5
         x: 220
         width: 200
         onValueChanged: {
+
+            for (var i = 0; i < 91; ++i) {
+                circleRepeater.itemAt(i).setRadius(radiusSlider.value)
+            }
             updateAllCircles()
         }
         ToolTip {
@@ -163,6 +167,22 @@ Item {
         }
     }
 
+    Button {
+        text: "Add reversed 91"
+        y: 20
+        x: primesCombo.x + primesCombo.width + 10 + addOroButton.width + 10
+        id: revBut
+
+        onClicked : {
+            for (var i = 1; i < 91; ++i) {
+                rational.calc(i, 91, 10)
+                circleRepeater.itemAt(pageCircles.circlesCount).add(rational.digits("fract", 0), 10, true, true, "#00ff00")
+                pageCircles.circlesCount += 1
+
+            }
+        }
+    }
+
     Popup{
         id: exportPopup
         width: pageCircles.width - 300
@@ -209,7 +229,7 @@ Item {
    Grid {
         id: repeatersGrid
         x: 10; y: 50
-        rows: 10
+        rows: 20
         columns: pageCircles.width / ( pageCircles.circleRadius + 10)
         spacing: 10
 
@@ -239,7 +259,7 @@ Item {
                 digitsCircle.add(digits, numericSystem, cycleFlag, oroFlag, color )
             }
             function setRadius(radius) {
-                digitsCircle.setRadius()
+                digitsCircle.setRadius(radius)
             }
 
             /*Timer {

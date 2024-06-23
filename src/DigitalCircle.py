@@ -131,7 +131,7 @@ class DigitalCircle(QQuickPaintedItem):
         QQuickPaintedItem.__init__(self,parent)
         self._oroborusFlag = True
         self._cycleFlag = True
-        self._radius = 100
+        self._radius = 50
         self._borderOffset = 15
         self._digitsList = []
         self._scale = 0
@@ -413,6 +413,7 @@ class DigitalCircle(QQuickPaintedItem):
     @Slot(int)
     def setRadius(self, newRadius):
         self._radius = newRadius
+        print(self._radius, "new radius")
         self.update()
     def getRadius(self):
         return self._radius
